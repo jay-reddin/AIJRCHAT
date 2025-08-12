@@ -33,7 +33,8 @@ export default function TokenUsageTracker({ messages = [] }) {
     setSessionTokens(sessionTotal);
   }, [messages]);
 
-  const usagePercentage = (totalTokens / TOKEN_LIMIT) * 100;
+  const combinedTokens = totalTokens + sessionTokens;
+  const usagePercentage = (combinedTokens / TOKEN_LIMIT) * 100;
   const isNearLimit = usagePercentage > 80;
   const isAtLimit = usagePercentage > 95;
 
