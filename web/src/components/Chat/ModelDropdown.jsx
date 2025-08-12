@@ -103,7 +103,7 @@ export default function ModelDropdown({
               <Zap size={10} className="text-yellow-500" />
             )}
             {currentCapabilities.vision && (
-              <Eye size={10} className="text-blue-500" />
+              <Eye size={10} className="text-blue-500 flex flex-col justify-center" />
             )}
             {currentCapabilities.imageGeneration && (
               <ImageIcon size={10} className="text-green-500" />
