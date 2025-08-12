@@ -9,6 +9,8 @@ export default function UserMenu({ user, onShowSettings, onSignOut, theme }) {
   const isDark = theme === "dark";
 
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+
     const handleClickOutside = (event) => {
       if (
         hoverCardRef.current &&
