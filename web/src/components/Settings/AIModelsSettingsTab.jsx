@@ -82,8 +82,7 @@ export default function AIModelsSettingsTab({
           <div key={provider} className="border rounded-lg p-4">
             <h3 className="font-bold text-lg mb-3">{provider}</h3>
             <div className="grid grid-cols-1 gap-2">
-              {Object.values(modelsByCategory)
-                .flat()
+              {[...new Set(Object.values(modelsByCategory).flat())]
                 .map((model) => (
                   <label
                     key={model}
