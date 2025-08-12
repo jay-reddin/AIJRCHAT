@@ -13,9 +13,13 @@ const queryClient = new QueryClient({
 });
 
 function PuterLoader({ children }) {
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
+
     // Load Puter.js if not already loaded
-    if (typeof window !== "undefined" && !window.puter) {
+    if (!window.puter) {
       try {
         const script = document.createElement("script");
         script.src = "https://js.puter.com/v2/";
@@ -28,8 +32,6 @@ function PuterLoader({ children }) {
         console.warn("Error loading Puter.js:", error);
       }
     }
-
-    // Service worker registration disabled - no sw.js file available
   }, []);
 
   return children;
