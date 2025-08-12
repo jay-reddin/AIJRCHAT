@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getStoredTokenUsage, setManualTokenUsage } from '../../utils/tokenStorage.js';
 import { formatTokenCount } from '../../utils/tokenCounter.js';
 
