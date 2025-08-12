@@ -96,20 +96,20 @@ export default function ModelDropdown({
         className="flex items-center justify-between w-full px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
         disabled={!isSignedIn}
       >
-        <div className="flex flex-col items-center justify-center flex-1">
-          <span className="font-medium truncate text-sm max-w-36">{selectedModel}</span>
+        <div className="flex flex-row justify-center flex-1">
+          <span className="font-medium truncate text-base max-w-36 mr-2.5">{selectedModel}</span>
           <div className="flex gap-1 mt-0.5">
             {currentCapabilities.functions && (
-              <Zap size={10} className="text-yellow-500" />
+              <Zap size={16} className="text-yellow-500 mr-2.5" />
             )}
             {currentCapabilities.vision && (
-              <Eye size={10} className="text-blue-500" />
+              <Eye size={16} className="text-blue-500 mr-2.5" />
             )}
             {currentCapabilities.imageGeneration && (
-              <ImageIcon size={10} className="text-green-500" />
+              <ImageIcon size={16} className="text-green-500 mr-2.5" />
             )}
             {currentCapabilities.reasoning && (
-              <Brain size={10} className="text-purple-500" />
+              <Brain size={16} className="text-purple-500 mr-2.5" />
             )}
           </div>
         </div>
