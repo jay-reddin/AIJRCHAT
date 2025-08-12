@@ -132,7 +132,7 @@ export default function useChat({
     }
 
     const userMessage = {
-      id: Date.now(),
+      id: generateMessageId(),
       role: "user",
       content: `🎨 Generate image: "${currentMessage}"`,
       timestamp: new Date().toLocaleTimeString([], {
@@ -210,7 +210,7 @@ export default function useChat({
     }
 
     const userMessage = {
-      id: Date.now(),
+      id: generateMessageId(),
       role: "user",
       content: currentMessage || "Analyze this image",
       timestamp: new Date().toLocaleTimeString([], {
@@ -292,7 +292,7 @@ export default function useChat({
     }
 
     const userMessage = {
-      id: Date.now(),
+      id: generateMessageId(),
       role: "user",
       content: currentMessage,
       timestamp: new Date().toLocaleTimeString([], {
