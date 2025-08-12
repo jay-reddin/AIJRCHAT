@@ -5,18 +5,12 @@ import { getStoredTokenUsage, addTokenUsage } from '../../utils/tokenStorage.js'
 export default function TokenUsageTracker({ messages = [] }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [sessionTokens, setSessionTokens] = useState(0);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    if (!isClient) return;
     // Load stored token usage on mount
     const stored = getStoredTokenUsage();
     setTotalTokens(stored);
-  }, [isClient]);
+  }, []);
 
   useEffect(() => {
     // Calculate tokens from current session messages
