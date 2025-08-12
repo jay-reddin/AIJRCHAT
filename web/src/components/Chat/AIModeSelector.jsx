@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { ImageIcon, Upload, MessageSquare, Zap } from "lucide-react";
 import { getModelCapabilities } from "../../data/ai-models.js";
+import TokenUsageTracker from "./TokenUsageTracker.jsx";
 
 export default function AIModeSelector({
   chatMode,
