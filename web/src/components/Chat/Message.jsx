@@ -10,12 +10,16 @@ function SafeReactMarkdown({ children }) {
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
-    // Return plain text on server to prevent hydration mismatch
-    return <div className="whitespace-pre-wrap break-words">{children}</div>;
-  }
-
-  return <ReactMarkdown>{children}</ReactMarkdown>;
+  // Always render the same structure but suppress hydration warnings for content
+  return (
+    <div suppressHydrationWarning>
+      {isClient ? (
+        <ReactMarkdown>{children}</ReactMarkdown>
+      ) : (
+        <div className="whitespace-pre-wrap break-words">{children}</div>
+      )}
+    </div>
+  );
 }
 
 export default function Message({
