@@ -29,10 +29,14 @@ export default function ModelDropdown({
           setSelectedModel(model);
           setShowModelDropdown(false);
         }}
-        className={`p-3 hover:bg-gray-700/30 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start w-full ${
+        className={`p-3 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start w-full ${
           isSelected
-            ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
-            : ""
+            ? isDark
+              ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
+              : "bg-purple-100 border-l-2 border-purple-500"
+            : isDark
+              ? "hover:bg-gray-700/30"
+              : "hover:bg-gray-100"
         }`}
       >
         <div className="flex items-start justify-between">
