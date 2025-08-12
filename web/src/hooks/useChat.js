@@ -3,6 +3,12 @@ import { conversationHistory } from "../data/conversation-history.js";
 import { availableFunctions } from "../data/available-functions.js";
 import { getModelCapabilities, modelSupports } from "../data/ai-models.js";
 
+// Stable ID generator to prevent hydration mismatches
+let messageIdCounter = 1;
+const generateMessageId = () => {
+  return `msg_${messageIdCounter++}`;
+};
+
 const executeFunction = (functionName, args) => {
   switch (functionName) {
     case "get_weather":
