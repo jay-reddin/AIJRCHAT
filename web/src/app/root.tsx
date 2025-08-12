@@ -420,7 +420,9 @@ export function Layout({ children }: { children: ReactNode }) {
         <LoadFonts />
       </head>
       <body>
-        <ClientOnly loader={() => children} />
+        <ErrorBoundaryWrapper>
+          <LoaderWrapper loader={() => children} />
+        </ErrorBoundaryWrapper>
         <HotReloadIndicator />
         <Toaster position="bottom-right" />
         <ScrollRestoration />
