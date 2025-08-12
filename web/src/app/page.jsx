@@ -96,7 +96,7 @@ export default function AIChat() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col ${themeClasses} transition-colors duration-300`}
+      className={`min-h-screen w-full max-w-full flex flex-col ${themeClasses} transition-colors duration-300 overflow-x-hidden`}
       style={{ fontSize: `${fontSize}%` }}
     >
       <ChatHeader
