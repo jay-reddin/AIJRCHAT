@@ -123,7 +123,7 @@ export default function ModelDropdown({
       </button>
 
       {showModelDropdown && (
-        <div className="absolute top-full mt-2 w-full sm:w-80 max-w-[95vw] max-h-96 overflow-y-auto rounded-lg bg-opacity-95 backdrop-blur-sm border shadow-lg z-50 left-0 sm:left-auto">
+        <div className="absolute top-full mt-2 w-80 max-h-96 overflow-y-auto rounded-lg bg-opacity-95 backdrop-blur-sm border shadow-lg z-50">
           {/* Capability Legend */}
           <div className="p-3 border-b border-opacity-20 bg-opacity-50">
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
