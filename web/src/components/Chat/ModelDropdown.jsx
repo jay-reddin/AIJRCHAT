@@ -21,7 +21,7 @@ export default function ModelDropdown({
           setSelectedModel(model);
           setShowModelDropdown(false);
         }}
-        className={`p-3 hover:bg-opacity-20 cursor-pointer transition-all duration-200 ${
+        className={`p-3 hover:bg-opacity-20 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start ${
           isSelected
             ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
             : ""
@@ -90,7 +90,7 @@ export default function ModelDropdown({
   const currentCapabilities = getModelCapabilities(selectedModel);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full flex flex-col">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
         className="flex items-center justify-between w-full px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
@@ -123,9 +123,9 @@ export default function ModelDropdown({
       </button>
 
       {showModelDropdown && (
-        <div className="absolute top-full mt-2 w-80 max-h-96 overflow-y-auto rounded-lg bg-opacity-95 backdrop-blur-sm border shadow-lg z-50">
+        <div className="absolute top-full w-[351px] max-h-96 overflow-y-auto rounded-lg backdrop-blur-sm border shadow-lg z-50 flex flex-col justify-start items-center m-auto" style={{backgroundColor: '#101013'}}>
           {/* Capability Legend */}
-          <div className="p-3 border-b border-opacity-20 bg-opacity-50">
+          <div className="p-3 border-b border-opacity-20 bg-opacity-50 flex flex-col justify-start items-start">
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
