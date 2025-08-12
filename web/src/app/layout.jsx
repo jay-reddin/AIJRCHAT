@@ -19,7 +19,7 @@ function PuterLoader({ children }) {
     setIsClient(true);
 
     // Load Puter.js if not already loaded
-    if (!window.puter) {
+    if (typeof window !== 'undefined' && !window.puter) {
       try {
         const script = document.createElement("script");
         script.src = "https://js.puter.com/v2/";
