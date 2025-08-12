@@ -29,6 +29,7 @@ export default function ChatHeader({
             setSelectedModel={setSelectedModel}
             enabledModels={enabledModels}
             isSignedIn={isSignedIn}
+            theme={theme}
           />
         </div>
 
