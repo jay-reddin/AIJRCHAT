@@ -138,7 +138,7 @@ export default function ModelDropdown({
         />
       </button>
 
-      {isClient && showModelDropdown && (
+      {showModelDropdown && (
         <div className={`absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border shadow-xl z-50 ${
           isDark
             ? "bg-gray-900 border-gray-700"
