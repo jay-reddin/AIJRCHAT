@@ -145,7 +145,11 @@ export default function ModelDropdown({
             : "bg-white border-gray-300"
         }`}>
           {/* Capability Legend */}
-          <div className="p-3 border-b border-gray-700 bg-gray-800/50 flex flex-col justify-start items-start w-full">
+          <div className={`p-3 border-b flex flex-col justify-start items-start w-full ${
+            isDark
+              ? "border-gray-700 bg-gray-800/50"
+              : "border-gray-200 bg-gray-50"
+          }`}>
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
