@@ -155,7 +155,7 @@ export default function useChat({
     setError(null);
 
     try {
-      if (!window.puter) {
+      if (typeof window === 'undefined' || !window.puter) {
         throw new Error(
           "Puter is still loading. Please wait a moment and try again.",
         );
