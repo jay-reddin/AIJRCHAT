@@ -21,6 +21,23 @@ export default function SettingsModal({
   setEnableStreaming,
 }) {
   const [activeTab, setActiveTab] = useState("ui");
+  const modalRef = useRef(null);
+
+  // Handle click outside to close modal
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
+    };
+
+    if (showSettings) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [showSettings, setShowSettings]);
 
   if (!showSettings) return null;
 
