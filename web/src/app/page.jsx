@@ -124,6 +124,7 @@ export default function AIChat() {
         currentMessage={currentMessage}
         setCurrentMessage={setCurrentMessage}
         selectedModel={selectedModel}
+        messages={messages}
       />
 
       <MessageArea
