@@ -41,7 +41,7 @@ export default function RootLayout({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <PuterLoader>
-        <div className="bg-gray-900 text-white min-h-screen">
+        <div className="bg-gray-900 text-white min-h-screen" suppressHydrationWarning>
           {children}
         </div>
       </PuterLoader>
