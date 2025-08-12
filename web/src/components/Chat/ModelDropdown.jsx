@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronDown, Zap, Eye, Image as ImageIcon, Brain } from "lucide-react";
 import { aiModels, getModelCapabilities } from "../../data/ai-models.js";
 
