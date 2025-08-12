@@ -4,6 +4,10 @@ const TOKEN_STORAGE_KEY = 'ai_chat_token_usage';
 const LAST_RESET_KEY = 'ai_chat_last_token_reset';
 
 export function getStoredTokenUsage() {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return 0;
+  }
+
   try {
     const stored = localStorage.getItem(TOKEN_STORAGE_KEY);
     const lastReset = localStorage.getItem(LAST_RESET_KEY);
@@ -31,6 +35,10 @@ export function getStoredTokenUsage() {
 }
 
 export function saveTokenUsage(tokens) {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return;
+  }
+
   try {
     localStorage.setItem(TOKEN_STORAGE_KEY, tokens.toString());
     localStorage.setItem(LAST_RESET_KEY, new Date().toISOString());
@@ -47,6 +55,10 @@ export function addTokenUsage(additionalTokens) {
 }
 
 export function resetTokenUsage() {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return;
+  }
+
   try {
     localStorage.setItem(TOKEN_STORAGE_KEY, '0');
     localStorage.setItem(LAST_RESET_KEY, new Date().toISOString());
@@ -61,6 +73,10 @@ export function setManualTokenUsage(tokens) {
 }
 
 export function getResetDate() {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return null;
+  }
+
   const lastReset = localStorage.getItem(LAST_RESET_KEY);
   if (!lastReset) return null;
   
