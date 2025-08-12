@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { getStoredTokenUsage, setManualTokenUsage, formatTokenCount } from '../../utils/tokenStorage.js';
+import { getStoredTokenUsage, setManualTokenUsage } from '../../utils/tokenStorage.js';
+import { formatTokenCount } from '../../utils/tokenCounter.js';
 
 export default function UISettingsTab({
   theme,
