@@ -10,11 +10,6 @@ export default function ModelDropdown({
   theme = "dark",
 }) {
   const [showModelDropdown, setShowModelDropdown] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
 
   const isDark = theme === "dark";
 
