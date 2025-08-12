@@ -67,10 +67,14 @@ export default function useChat({
   // Initialize messages after client mount to prevent hydration mismatch
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
     if (!isSignedIn) {
       setMessages(conversationHistory.messages);
     }
-  }, [isSignedIn]);
+  }, [isClient, isSignedIn]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
