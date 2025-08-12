@@ -1,5 +1,22 @@
 import ReactMarkdown from "react-markdown";
+import { useState, useEffect } from "react";
 import MessageActions from "./MessageActions";
+
+// SSR-safe ReactMarkdown wrapper
+function SafeReactMarkdown({ children }) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    // Return plain text on server to prevent hydration mismatch
+    return <div className="whitespace-pre-wrap break-words">{children}</div>;
+  }
+
+  return <ReactMarkdown>{children}</ReactMarkdown>;
+}
 
 export default function Message({
   message,
