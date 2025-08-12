@@ -112,20 +112,22 @@ export default function AIChat() {
         theme={theme}
       />
 
-      <AIModeSelector
-        chatMode={chatMode}
-        setChatMode={setChatMode}
-        imageUrl={imageUrl}
-        setImageUrl={setImageUrl}
-        enableFunctions={enableFunctions}
-        setEnableFunctions={setEnableFunctions}
-        enableStreaming={enableStreaming}
-        setEnableStreaming={setEnableStreaming}
-        currentMessage={currentMessage}
-        setCurrentMessage={setCurrentMessage}
-        selectedModel={selectedModel}
-        messages={messages}
-      />
+      <div suppressHydrationWarning>
+        <AIModeSelector
+          chatMode={chatMode}
+          setChatMode={setChatMode}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          enableFunctions={enableFunctions}
+          setEnableFunctions={setEnableFunctions}
+          enableStreaming={enableStreaming}
+          setEnableStreaming={setEnableStreaming}
+          currentMessage={currentMessage}
+          setCurrentMessage={setCurrentMessage}
+          selectedModel={selectedModel}
+          messages={messages}
+        />
+      </div>
 
       <MessageArea
         messages={messages}
