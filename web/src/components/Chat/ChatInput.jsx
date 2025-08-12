@@ -19,6 +19,11 @@ const ChatInput = forwardRef(
 
     const isDark = theme === "dark";
 
+    // Calculate current message token count
+    const currentTokenCount = useMemo(() => {
+      return estimateTokens(currentMessage, attachedFiles);
+    }, [currentMessage, attachedFiles]);
+
     const handleKeyPress = (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
