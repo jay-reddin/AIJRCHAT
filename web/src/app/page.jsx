@@ -11,6 +11,7 @@ import AIModeSelector from "../components/Chat/AIModeSelector.jsx";
 import MessageArea from "../components/Chat/MessageArea.jsx";
 import ChatInput from "../components/Chat/ChatInput.jsx";
 import SettingsModal from "../components/Settings/SettingsModal.jsx";
+import TokenUsageTracker from "../components/Chat/TokenUsageTracker.jsx";
 
 export default function AIChat() {
   const {
@@ -96,34 +97,39 @@ export default function AIChat() {
 
   return (
     <div
-      className={`min-h-screen flex flex-col ${themeClasses} transition-colors duration-300`}
+      className={`min-h-screen w-full max-w-full flex flex-col ${themeClasses} transition-colors duration-300 overflow-x-hidden`}
       style={{ fontSize: `${fontSize}%` }}
     >
-      <ChatHeader
-        handleNewChat={handleNewChat}
-        selectedModel={selectedModel}
-        setSelectedModel={setSelectedModel}
-        enabledModels={enabledModels}
-        isSignedIn={isSignedIn}
-        user={user}
-        setShowSettings={setShowSettings}
-        handleSignOut={handleSignOut}
-        theme={theme}
-      />
+      <div suppressHydrationWarning>
+        <ChatHeader
+          handleNewChat={handleNewChat}
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          enabledModels={enabledModels}
+          isSignedIn={isSignedIn}
+          user={user}
+          setShowSettings={setShowSettings}
+          handleSignOut={handleSignOut}
+          theme={theme}
+        />
+      </div>
 
-      <AIModeSelector
-        chatMode={chatMode}
-        setChatMode={setChatMode}
-        imageUrl={imageUrl}
-        setImageUrl={setImageUrl}
-        enableFunctions={enableFunctions}
-        setEnableFunctions={setEnableFunctions}
-        enableStreaming={enableStreaming}
-        setEnableStreaming={setEnableStreaming}
-        currentMessage={currentMessage}
-        setCurrentMessage={setCurrentMessage}
-        selectedModel={selectedModel}
-      />
+      <div suppressHydrationWarning>
+        <AIModeSelector
+          chatMode={chatMode}
+          setChatMode={setChatMode}
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          enableFunctions={enableFunctions}
+          setEnableFunctions={setEnableFunctions}
+          enableStreaming={enableStreaming}
+          setEnableStreaming={setEnableStreaming}
+          currentMessage={currentMessage}
+          setCurrentMessage={setCurrentMessage}
+          selectedModel={selectedModel}
+          messages={messages}
+        />
+      </div>
 
       <MessageArea
         messages={messages}

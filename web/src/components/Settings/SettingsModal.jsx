@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import UISettingsTab from "./UISettingsTab";
 import AIModelsSettingsTab from "./AIModelsSettingsTab";
@@ -21,12 +21,30 @@ export default function SettingsModal({
   setEnableStreaming,
 }) {
   const [activeTab, setActiveTab] = useState("ui");
+  const modalRef = useRef(null);
+
+  // Handle click outside to close modal
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setShowSettings(false);
+      }
+    };
+
+    if (showSettings) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [showSettings, setShowSettings]);
 
   if (!showSettings) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div
+        ref={modalRef}
         className={`w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl ${
           theme === "dark" ? "bg-[#1B1B1E]" : "bg-white"
         }`}

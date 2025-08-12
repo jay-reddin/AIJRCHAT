@@ -1,5 +1,26 @@
 import ReactMarkdown from "react-markdown";
+import { useState, useEffect } from "react";
 import MessageActions from "./MessageActions";
+
+// SSR-safe ReactMarkdown wrapper
+function SafeReactMarkdown({ children }) {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Always render the same structure but suppress hydration warnings for content
+  return (
+    <div suppressHydrationWarning>
+      {isClient ? (
+        <ReactMarkdown>{children}</ReactMarkdown>
+      ) : (
+        <div className="whitespace-pre-wrap break-words">{children}</div>
+      )}
+    </div>
+  );
+}
 
 export default function Message({
   message,
@@ -49,7 +70,7 @@ export default function Message({
                   : "prose-headings:text-[#000000] prose-p:text-[#000000] prose-strong:text-[#000000] prose-code:text-[#000000] prose-pre:bg-[#F8F9FA] prose-pre:text-[#000000]"
               }`}
             >
-              <ReactMarkdown>{message.content}</ReactMarkdown>
+              <SafeReactMarkdown>{message.content}</SafeReactMarkdown>
             </div>
           ) : (
             <p className="whitespace-pre-wrap break-words">{message.content}</p>

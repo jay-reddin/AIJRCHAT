@@ -7,8 +7,11 @@ export default function ModelDropdown({
   setSelectedModel,
   enabledModels,
   isSignedIn,
+  theme = "dark",
 }) {
   const [showModelDropdown, setShowModelDropdown] = useState(false);
+
+  const isDark = theme === "dark";
 
   const renderModelOption = (model) => {
     const capabilities = getModelCapabilities(model);
@@ -21,10 +24,14 @@ export default function ModelDropdown({
           setSelectedModel(model);
           setShowModelDropdown(false);
         }}
-        className={`p-3 hover:bg-opacity-20 cursor-pointer transition-all duration-200 ${
+        className={`p-3 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start w-full ${
           isSelected
-            ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
-            : ""
+            ? isDark
+              ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
+              : "bg-purple-100 border-l-2 border-purple-500"
+            : isDark
+              ? "hover:bg-gray-700/30"
+              : "hover:bg-gray-100"
         }`}
       >
         <div className="flex items-start justify-between">
@@ -90,41 +97,54 @@ export default function ModelDropdown({
   const currentCapabilities = getModelCapabilities(selectedModel);
 
   return (
-    <div className="relative">
+    <div className="relative w-full flex flex-col">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
-        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-w-48"
+        className={`flex items-center justify-between w-full px-4 py-2 rounded-lg border transition-all duration-200 min-h-[40px] ${
+          isDark
+            ? "bg-gray-800/50 border-gray-600 hover:bg-gray-700/50 text-white"
+            : "bg-white border-gray-300 hover:bg-gray-50 text-black"
+        }`}
         disabled={!isSignedIn}
       >
-        <div className="flex flex-col items-start flex-1">
-          <span className="font-medium truncate max-w-36">{selectedModel}</span>
+        <div className="flex flex-row justify-center flex-1">
+          <span className="font-medium truncate text-base max-w-36 mr-2.5">{selectedModel}</span>
           <div className="flex gap-1 mt-0.5">
             {currentCapabilities.functions && (
-              <Zap size={10} className="text-yellow-500" />
+              <Zap size={16} className="text-yellow-500 mr-2.5" />
             )}
             {currentCapabilities.vision && (
-              <Eye size={10} className="text-blue-500" />
+              <Eye size={16} className="text-blue-500 mr-2.5" />
             )}
             {currentCapabilities.imageGeneration && (
-              <ImageIcon size={10} className="text-green-500" />
+              <ImageIcon size={16} className="text-green-500 mr-2.5" />
             )}
             {currentCapabilities.reasoning && (
-              <Brain size={10} className="text-purple-500" />
+              <Brain size={16} className="text-purple-500 mr-2.5" />
             )}
           </div>
         </div>
+
         <ChevronDown
-          size={16}
-          className={`transition-transform ${
+          size={14}
+          className={`transition-transform ml-1 ${
             showModelDropdown ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {showModelDropdown && (
-        <div className="absolute top-full mt-2 w-80 max-h-96 overflow-y-auto rounded-lg bg-opacity-95 backdrop-blur-sm border shadow-lg z-50">
+        <div className={`absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border shadow-xl z-50 ${
+          isDark
+            ? "bg-gray-900 border-gray-700"
+            : "bg-white border-gray-300"
+        }`}>
           {/* Capability Legend */}
-          <div className="p-3 border-b border-opacity-20 bg-opacity-50">
+          <div className={`p-3 border-b flex flex-col justify-start items-start w-full ${
+            isDark
+              ? "border-gray-700 bg-gray-800/50"
+              : "border-gray-200 bg-gray-50"
+          }`}>
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
@@ -148,17 +168,24 @@ export default function ModelDropdown({
 
           {/* Group models by provider */}
           {Object.entries(aiModels).map(([provider, categories]) => {
-            const providerModels = [
+            const allModels = [
               ...(categories.text || []),
               ...(categories.reasoning || []),
               ...(categories.vision || []),
-            ].filter((model) => enabledModels.includes(model));
+            ];
+            // Deduplicate models using Set
+            const uniqueModels = [...new Set(allModels)];
+            const providerModels = uniqueModels.filter((model) => enabledModels.includes(model));
 
             if (providerModels.length === 0) return null;
 
             return (
               <div key={provider}>
-                <div className="px-3 py-2 text-xs font-semibold bg-opacity-20 border-b border-opacity-10">
+                <div className={`px-3 py-2 text-xs font-semibold border-b w-full ${
+                  isDark
+                    ? "bg-gray-800/50 border-gray-700 text-gray-200"
+                    : "bg-gray-100 border-gray-200 text-gray-700"
+                }`}>
                   {provider === "Grok" ? "Grok (X.AI)" : provider}
                 </div>
                 {providerModels.map(renderModelOption)}

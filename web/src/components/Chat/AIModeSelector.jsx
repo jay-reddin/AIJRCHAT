@@ -1,6 +1,8 @@
 import { useState, useRef } from "react";
 import { ImageIcon, Upload, MessageSquare, Zap } from "lucide-react";
 import { getModelCapabilities } from "../../data/ai-models.js";
+import TokenUsageTracker from "./TokenUsageTracker.jsx";
+import ClientOnlyWrapper from "./ClientOnlyWrapper.jsx";
 
 export default function AIModeSelector({
   chatMode,
@@ -14,6 +16,7 @@ export default function AIModeSelector({
   currentMessage,
   setCurrentMessage,
   selectedModel,
+  messages = [],
 }) {
   const [showModeDropdown, setShowModeDropdown] = useState(false);
   const fileInputRef = useRef(null);
@@ -69,7 +72,11 @@ export default function AIModeSelector({
   };
 
   return (
-    <div className="border-b border-opacity-20 p-4 space-y-3">
+    <div className="border-b border-opacity-20 p-4 space-y-3" suppressHydrationWarning>
+      {/* Token Usage Tracker */}
+      <ClientOnlyWrapper>
+        <TokenUsageTracker messages={messages} />
+      </ClientOnlyWrapper>
       {/* Mode Selector */}
       <div className="flex items-center gap-3">
         <div className="relative">
