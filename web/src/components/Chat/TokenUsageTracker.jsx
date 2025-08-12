@@ -70,13 +70,13 @@ export default function TokenUsageTracker({ messages = [] }) {
       <div className="mt-1 w-full bg-gray-700 rounded-full h-1" suppressHydrationWarning>
         <div
           className={`h-1 rounded-full transition-all duration-300 ${
-            isAtLimit
+            displayPercentage > 95
               ? 'bg-red-500'
-              : isNearLimit
+              : displayPercentage > 80
                 ? 'bg-yellow-500'
                 : 'bg-green-500'
           }`}
-          style={{ width: `${Math.min(usagePercentage, 100)}%` }}
+          style={{ width: `${Math.min(displayPercentage, 100)}%` }}
         />
       </div>
     </div>
