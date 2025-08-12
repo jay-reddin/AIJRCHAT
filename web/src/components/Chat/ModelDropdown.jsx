@@ -26,7 +26,7 @@ export default function ModelDropdown({
           setSelectedModel(model);
           setShowModelDropdown(false);
         }}
-        className={`p-3 hover:bg-opacity-20 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start ${
+        className={`p-3 hover:bg-gray-700/30 cursor-pointer transition-all duration-200 flex flex-col justify-start items-start w-full ${
           isSelected
             ? "bg-purple-500 bg-opacity-20 border-l-2 border-purple-500"
             : ""
