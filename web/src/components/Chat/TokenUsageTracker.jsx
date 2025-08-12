@@ -7,6 +7,9 @@ export default function TokenUsageTracker({ messages = [] }) {
   const [sessionTokens, setSessionTokens] = useState(0);
   const [isClient, setIsClient] = useState(false);
 
+  // Prevent any hydration issues by ensuring component is mounted
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     // Mark as client-side and load stored token usage
     setIsClient(true);
