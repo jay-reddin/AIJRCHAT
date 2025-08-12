@@ -37,11 +37,10 @@ export default function CreateDefaultNotFoundPage() {
       };
     }
   }, []);
-  const missingPath = loaderData.path.replace(/^\//, '');
-  const existingRoutes = loaderData.pages.map((page) => ({
-    path: page.path,
-    url: page.url,
-  }));
+  const missingPath = (params['*'] || '').replace(/^\//, '');
+  const existingRoutes = [
+    { path: 'Homepage', url: '/' },
+  ];
 
   const handleBack = () => {
     navigate('/');
