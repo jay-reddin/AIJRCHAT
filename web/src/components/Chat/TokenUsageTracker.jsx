@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { formatTokenCount, TOKEN_LIMIT } from '../../utils/tokenCounter.js';
+import { getStoredTokenUsage, addTokenUsage } from '../../utils/tokenStorage.js';
 
 export default function TokenUsageTracker({ messages = [] }) {
   const [totalTokens, setTotalTokens] = useState(0);
