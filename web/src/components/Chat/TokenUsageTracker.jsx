@@ -53,7 +53,7 @@ export default function TokenUsageTracker({ messages = [] }) {
 
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-center justify-between text-xs" suppressHydrationWarning>
         <span className="text-gray-400">
           Total Usage: {formatTokenCount(combinedTokens)} / {formatTokenCount(TOKEN_LIMIT)}
           {sessionTokens > 0 && (
@@ -63,10 +63,10 @@ export default function TokenUsageTracker({ messages = [] }) {
           )}
         </span>
         <span className={`font-medium ${
-          isAtLimit 
-            ? 'text-red-400' 
-            : isNearLimit 
-              ? 'text-yellow-400' 
+          isAtLimit
+            ? 'text-red-400'
+            : isNearLimit
+              ? 'text-yellow-400'
               : 'text-green-400'
         }`}>
           {usagePercentage.toFixed(1)}%
