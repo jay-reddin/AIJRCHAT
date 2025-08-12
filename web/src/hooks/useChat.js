@@ -47,7 +47,7 @@ const executeFunction = (functionName, args) => {
       return JSON.stringify({
         datetime: now.toISOString(),
         local_time: now.toLocaleString(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timezone: typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC',
       });
 
     default:
@@ -61,9 +61,7 @@ export default function useChat({
   selectedModel,
   inputRef,
 }) {
-  const [messages, setMessages] = useState(
-    isSignedIn ? [] : conversationHistory.messages,
-  );
+  const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -112,7 +110,9 @@ export default function useChat({
   };
 
   const handleCopy = (content) => {
-    navigator.clipboard.writeText(content);
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+    }
   };
 
   const handleDelete = (messageId) => {
