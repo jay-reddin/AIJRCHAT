@@ -113,7 +113,7 @@ const ChatInput = forwardRef(
             placeholder={
               isSignedIn ? "Type your message..." : "Sign in to chat"
             }
-            className={`flex-1 px-3 sm:px-4 py-3 rounded-lg backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 resize-none ${
+            className={`flex-1 px-3 sm:px-4 py-3 rounded-lg backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200 resize-none scrollbar-hide ${
               isDark
                 ? "bg-[#1B1B1E] bg-opacity-50 border border-[#374151] text-white placeholder-gray-400"
                 : "bg-white bg-opacity-80 border border-[#E5E7EB] text-black placeholder-gray-500"
