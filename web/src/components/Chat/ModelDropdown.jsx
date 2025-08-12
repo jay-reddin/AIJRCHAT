@@ -93,7 +93,7 @@ export default function ModelDropdown({
     <div className="relative w-full">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
-        className="flex items-center justify-between w-full px-2 sm:px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
+        className="flex items-center justify-between sm:justify-between justify-center w-full px-2 sm:px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
         disabled={!isSignedIn}
       >
         {/* Mobile Layout - Row */}
