@@ -48,4 +48,41 @@ Implement user authentication:
 - GitHub Repository: https://github.com/HeyPuter/puter.js
 
 ## Usage in Current Project
-The current project uses Puter.js for authentication in the `usePuterAuth` hook and related components.
+The current project uses Puter.js for:
+
+### Authentication
+- `usePuterAuth` hook for user authentication
+- User sign-in/sign-out functionality
+- Session management
+
+### AI Chat Integration
+- `window.puter.ai.chat()` method for AI conversations
+- Support for multiple model providers including OpenRouter
+- Streaming responses for real-time chat
+- Function calling capabilities
+- Vision model support for image analysis
+
+### OpenRouter Integration
+The project has extensive OpenRouter model support with 289+ models including:
+- **Anthropic**: Claude models (2.1, 3, 3.5, 3.7, 4)
+- **OpenAI**: GPT models (3.5, 4, 4o, o1, o3, o4)
+- **Google**: Gemini and Gemma models
+- **Meta**: Llama models (3, 3.1, 3.2, 3.3, 4)
+- **DeepSeek**: Chat and reasoning models
+- **Mistral**: Various model sizes
+- **Qwen**: Latest models including reasoning variants
+- **Many others**: Including specialized and fine-tuned models
+
+### Model Capabilities System
+The app includes a sophisticated model capabilities system that tracks:
+- **Streaming**: Real-time response support
+- **Functions**: Tool/function calling ability
+- **Vision**: Image analysis capabilities
+- **Reasoning**: Advanced reasoning model indicators
+- **Image Generation**: Text-to-image functionality
+
+### Current Implementation
+- Models are defined in `web/src/data/ai-models.js`
+- OpenRouter models are prefixed with `openrouter:`
+- Default enabled models can be configured
+- Model selection UI with capability indicators
