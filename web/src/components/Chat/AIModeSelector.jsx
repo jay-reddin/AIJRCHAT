@@ -15,6 +15,7 @@ export default function AIModeSelector({
   currentMessage,
   setCurrentMessage,
   selectedModel,
+  messages = [],
 }) {
   const [showModeDropdown, setShowModeDropdown] = useState(false);
   const fileInputRef = useRef(null);
