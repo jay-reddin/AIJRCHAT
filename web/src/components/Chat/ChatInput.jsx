@@ -63,7 +63,7 @@ const ChatInput = forwardRef(
     };
 
     return (
-      <div className="p-4 space-y-3">
+      <div className="p-2 sm:p-4 space-y-3 w-full max-w-full">
         {/* Advanced Features */}
         {showAdvanced && (
           <div
