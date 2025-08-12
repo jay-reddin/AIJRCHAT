@@ -418,7 +418,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <title>AI Chat - Multi-Model Conversation App</title>
         <Meta />
         <Links />
-        {import.meta.env.DEV && (
+        {typeof window !== 'undefined' && import.meta.env.DEV && (
           <script type="module" src="/src/__create/dev-error-overlay.js"></script>
         )}
         <LoadFonts />
