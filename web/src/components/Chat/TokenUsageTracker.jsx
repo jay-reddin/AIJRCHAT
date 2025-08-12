@@ -46,19 +46,7 @@ export default function TokenUsageTracker({ messages = [] }) {
 
   // Prevent hydration mismatch by not rendering until client mount
   if (!isClient) {
-    return (
-      <div className="px-4 py-2 border-b border-gray-700/50">
-        <div className="flex items-start justify-center text-xs">
-          <span className="text-gray-400">
-            Total Usage: 0 / <span className="mr-2.5">50.0M --</span>
-          </span>
-          <span className="font-medium text-green-400">0.0%</span>
-        </div>
-        <div className="mt-1 w-full bg-gray-700 rounded-full h-1">
-          <div className="h-1 rounded-full transition-all duration-300 bg-green-500" style={{ width: '0%' }} />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
