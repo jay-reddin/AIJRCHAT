@@ -9,6 +9,11 @@ export default function ModelDropdown({
   isSignedIn,
 }) {
   const [showModelDropdown, setShowModelDropdown] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const renderModelOption = (model) => {
     const capabilities = getModelCapabilities(model);
