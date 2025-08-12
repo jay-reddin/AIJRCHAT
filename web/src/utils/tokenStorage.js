@@ -69,6 +69,10 @@ export function resetTokenUsage() {
 
 export function setManualTokenUsage(tokens) {
   saveTokenUsage(tokens);
+  // Dispatch custom event to notify components of token usage update
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('tokenUsageUpdated', { detail: { tokens } }));
+  }
   return tokens;
 }
 
