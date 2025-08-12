@@ -3,6 +3,11 @@ import usePuterAuth from "../hooks/usePuterAuth";
 import useChat from "../hooks/useChat.js";
 import { defaultModels } from "../data/ai-models.js";
 
+// Add clientLoader for SPA mode compatibility
+export function clientLoader() {
+  return null;
+}
+
 import LoadingScreen from "../components/Auth/LoadingScreen.jsx";
 import AuthScreen from "../components/Auth/AuthScreen.jsx";
 import PageFooter from "../components/Layout/PageFooter.jsx";
