@@ -5,9 +5,11 @@ import { getStoredTokenUsage, addTokenUsage } from '../../utils/tokenStorage.js'
 export default function TokenUsageTracker({ messages = [] }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [sessionTokens, setSessionTokens] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Load stored token usage on component mount
+    // Mark as client-side and load stored token usage
+    setIsClient(true);
     const stored = getStoredTokenUsage();
     setTotalTokens(stored);
   }, []);
