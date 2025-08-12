@@ -1,6 +1,7 @@
 import { forwardRef, useState, useCallback, useMemo } from "react";
 import { Send } from "lucide-react";
 import { estimateTokens, formatTokenCount } from "../../utils/tokenCounter.js";
+import ClientOnlyWrapper from "./ClientOnlyWrapper.jsx";
 
 const ChatInput = forwardRef(
   (
