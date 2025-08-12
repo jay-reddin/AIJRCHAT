@@ -50,12 +50,13 @@ export default function ChatHeader({
           <button
             onClick={() => setShowSettings(true)}
             className="sm:hidden w-8 h-8 rounded-lg bg-opacity-10 border flex items-center justify-center hover:bg-opacity-20 transition-all duration-200"
+            suppressHydrationWarning
           >
             <Settings size={16} />
           </button>
 
           {/* Desktop UserMenu */}
-          <div className="hidden sm:block">
+          <div className="hidden sm:block" suppressHydrationWarning>
             <UserMenu
               user={user}
               onShowSettings={() => setShowSettings(true)}
