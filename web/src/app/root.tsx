@@ -430,7 +430,6 @@ export function Layout({ children }: { children: ReactNode }) {
           src="https://kit.fontawesome.com/2c15cc0cc7.js"
           crossOrigin="anonymous"
           async
-          onError={() => console.warn('FontAwesome failed to load')}
         />
       </body>
     </html>
