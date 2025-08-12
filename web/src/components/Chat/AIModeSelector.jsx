@@ -78,7 +78,7 @@ export default function AIModeSelector({
         <TokenUsageTracker messages={messages} />
       </ClientOnlyWrapper>
       {/* Mode Selector */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 justify-center">
         <div className="relative">
           <button
             onClick={() => setShowModeDropdown(!showModeDropdown)}
