@@ -16,14 +16,21 @@ function PuterLoader({ children }) {
   useEffect(() => {
     // Load Puter.js if not already loaded
     if (typeof window !== "undefined" && !window.puter) {
-      const script = document.createElement("script");
-      script.src = "https://js.puter.com/v2/";
-      script.async = true;
-      document.head.appendChild(script);
+      try {
+        const script = document.createElement("script");
+        script.src = "https://js.puter.com/v2/";
+        script.async = true;
+        script.onerror = () => {
+          console.warn("Failed to load Puter.js - continuing without it");
+        };
+        document.head.appendChild(script);
+      } catch (error) {
+        console.warn("Error loading Puter.js:", error);
+      }
     }
 
-    // Register service worker for PWA
-    if ("serviceWorker" in navigator) {
+    // Register service worker for PWA (only in production-like environments)
+    if ("serviceWorker" in navigator && window.location.protocol === "https:") {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("/sw.js")
@@ -31,7 +38,7 @@ function PuterLoader({ children }) {
             console.log("SW registered: ", registration);
           })
           .catch((registrationError) => {
-            console.log("SW registration failed: ", registrationError);
+            console.warn("SW registration failed: ", registrationError);
           });
       });
     }
