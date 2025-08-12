@@ -215,11 +215,10 @@ export const ClientOnly: React.FC<ClientOnlyProps> = ({ loader }) => {
     setIsMounted(true);
   }, []);
 
-  if (!isMounted) return null;
-
+  // Always render the same structure to prevent hydration mismatch
   return (
     <ErrorBoundaryWrapper>
-      <LoaderWrapper loader={loader} />
+      {isMounted ? <LoaderWrapper loader={loader} /> : <div suppressHydrationWarning />}
     </ErrorBoundaryWrapper>
   );
 };
