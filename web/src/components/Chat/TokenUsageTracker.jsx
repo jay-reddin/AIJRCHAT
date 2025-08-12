@@ -50,6 +50,11 @@ export default function TokenUsageTracker({ messages = [] }) {
   const displayTokens = isClient ? combinedTokens : 0;
   const displayPercentage = isClient ? usagePercentage : 0;
 
+  // Don't render anything until properly mounted to avoid hydration issues
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
       <div className="flex items-center justify-between text-xs" suppressHydrationWarning>
