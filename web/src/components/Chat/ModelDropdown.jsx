@@ -139,7 +139,11 @@ export default function ModelDropdown({
       </button>
 
       {isClient && showModelDropdown && (
-        <div className="absolute top-full w-[351px] max-h-96 overflow-y-auto rounded-lg border shadow-xl z-50 flex flex-col justify-start items-center m-auto bg-gray-900/95 backdrop-blur-md border-gray-700">
+        <div className={`absolute top-full left-0 right-0 max-h-96 overflow-y-auto rounded-lg border shadow-xl z-50 ${
+          isDark
+            ? "bg-gray-900 border-gray-700"
+            : "bg-white border-gray-300"
+        }`}>
           {/* Capability Legend */}
           <div className="p-3 border-b border-gray-700 bg-gray-800/50 flex flex-col justify-start items-start w-full">
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
