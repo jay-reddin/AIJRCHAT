@@ -18,7 +18,7 @@ export default function AuthScreen({ handleSignIn, error, theme = "dark" }) {
       <div className="max-w-md w-full text-center space-y-6">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-[#7C3AED] to-[#A855F7] bg-clip-text text-transparent">
-            AI Chat
+            JR AI Chat
           </h1>
           <p className="text-lg opacity-80">
             Chat with multiple AI models using Puter.com
