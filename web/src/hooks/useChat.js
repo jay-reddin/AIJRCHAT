@@ -164,7 +164,7 @@ export default function useChat({
 
       // Create image message
       const imageMessage = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "assistant",
         content: `Generated image: "${imagePrompt}"`,
         timestamp: new Date().toLocaleTimeString([], {
@@ -182,7 +182,7 @@ export default function useChat({
       setError(error.message);
 
       const errorMsg = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "error",
         content: `Image generation failed: ${error.message}`,
         timestamp: new Date().toLocaleTimeString([], {
@@ -249,7 +249,7 @@ export default function useChat({
       });
 
       const analysisMessage = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "assistant",
         content: analysisResponse.message?.content || analysisResponse,
         timestamp: new Date().toLocaleTimeString([], {
@@ -266,7 +266,7 @@ export default function useChat({
       setError(error.message);
 
       const errorMsg = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "error",
         content: `Image analysis failed: ${error.message}`,
         timestamp: new Date().toLocaleTimeString([], {
@@ -342,7 +342,7 @@ export default function useChat({
       }
 
       let assistantMessage = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "assistant",
         content: "",
         timestamp: new Date().toLocaleTimeString([], {
@@ -425,7 +425,7 @@ export default function useChat({
     } catch (error) {
       setError(error.message);
       const errorMsg = {
-        id: Date.now() + 1,
+        id: generateMessageId(),
         role: "error",
         content: `Error: ${error.message}`,
         timestamp: new Date().toLocaleTimeString([], {
