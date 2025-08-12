@@ -70,6 +70,22 @@ const ChatInput = forwardRef(
 
     return (
       <div className="p-2 sm:p-4 space-y-3 w-full max-w-full">
+        {/* Token Counter */}
+        {(currentMessage.trim() || attachedFiles.length > 0) && (
+          <div className="flex justify-end">
+            <div className={`text-xs px-2 py-1 rounded ${
+              currentTokenCount > 4000
+                ? 'text-red-400 bg-red-900/20'
+                : currentTokenCount > 2000
+                  ? 'text-yellow-400 bg-yellow-900/20'
+                  : isDark
+                    ? 'text-gray-400 bg-gray-800/50'
+                    : 'text-gray-600 bg-gray-100'
+            }`}>
+              Tokens: {formatTokenCount(currentTokenCount)}
+            </div>
+          </div>
+        )}
         {/* Advanced Features */}
         {showAdvanced && (
           <div
