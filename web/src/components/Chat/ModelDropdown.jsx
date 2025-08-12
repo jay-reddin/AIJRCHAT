@@ -90,7 +90,7 @@ export default function ModelDropdown({
   const currentCapabilities = getModelCapabilities(selectedModel);
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-w-48"
