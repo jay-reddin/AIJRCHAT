@@ -186,7 +186,11 @@ export default function ModelDropdown({
 
             return (
               <div key={provider}>
-                <div className="px-3 py-2 text-xs font-semibold bg-gray-800/50 border-b border-gray-700 text-gray-200 w-full">
+                <div className={`px-3 py-2 text-xs font-semibold border-b w-full ${
+                  isDark
+                    ? "bg-gray-800/50 border-gray-700 text-gray-200"
+                    : "bg-gray-100 border-gray-200 text-gray-700"
+                }`}>
                   {provider === "Grok" ? "Grok (X.AI)" : provider}
                 </div>
                 {providerModels.map(renderModelOption)}
