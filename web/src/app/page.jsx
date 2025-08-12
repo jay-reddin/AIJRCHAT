@@ -100,17 +100,19 @@ export default function AIChat() {
       className={`min-h-screen w-full max-w-full flex flex-col ${themeClasses} transition-colors duration-300 overflow-x-hidden`}
       style={{ fontSize: `${fontSize}%` }}
     >
-      <ChatHeader
-        handleNewChat={handleNewChat}
-        selectedModel={selectedModel}
-        setSelectedModel={setSelectedModel}
-        enabledModels={enabledModels}
-        isSignedIn={isSignedIn}
-        user={user}
-        setShowSettings={setShowSettings}
-        handleSignOut={handleSignOut}
-        theme={theme}
-      />
+      <div suppressHydrationWarning>
+        <ChatHeader
+          handleNewChat={handleNewChat}
+          selectedModel={selectedModel}
+          setSelectedModel={setSelectedModel}
+          enabledModels={enabledModels}
+          isSignedIn={isSignedIn}
+          user={user}
+          setShowSettings={setShowSettings}
+          handleSignOut={handleSignOut}
+          theme={theme}
+        />
+      </div>
 
       <div suppressHydrationWarning>
         <AIModeSelector
