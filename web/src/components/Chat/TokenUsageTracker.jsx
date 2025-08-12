@@ -40,9 +40,9 @@ export default function TokenUsageTracker({ messages = [] }) {
 
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-start justify-center text-xs">
         <span className="text-gray-400">
-          Total Usage: {formatTokenCount(combinedTokens)} / {formatTokenCount(TOKEN_LIMIT)}
+          Total Usage: {formatTokenCount(combinedTokens)} / <span className="mr-2.5">{formatTokenCount(TOKEN_LIMIT)} --</span>
           {sessionTokens > 0 && (
             <span className="text-xs ml-2 opacity-60">
               (+{formatTokenCount(sessionTokens)} this session)
