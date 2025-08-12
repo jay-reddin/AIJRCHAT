@@ -105,7 +105,11 @@ export default function ModelDropdown({
     <div className="relative w-full flex flex-col">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
-        className="flex items-center justify-between w-full px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
+        className={`flex items-center justify-between w-full px-4 py-2 rounded-lg border transition-all duration-200 min-h-[40px] ${
+          isDark
+            ? "bg-gray-800/50 border-gray-600 hover:bg-gray-700/50 text-white"
+            : "bg-white border-gray-300 hover:bg-gray-50 text-black"
+        }`}
         disabled={!isSignedIn}
       >
         <div className="flex flex-row justify-center flex-1">
