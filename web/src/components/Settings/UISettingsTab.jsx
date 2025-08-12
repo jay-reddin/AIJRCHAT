@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { getStoredTokenUsage, setManualTokenUsage, formatTokenCount } from '../../utils/tokenStorage.js';
+
 export default function UISettingsTab({
   theme,
   setTheme,
@@ -5,6 +8,8 @@ export default function UISettingsTab({
   setFontSize,
   user,
 }) {
+  const [manualTokens, setManualTokens] = useState(getStoredTokenUsage());
+  const [tokenInputValue, setTokenInputValue] = useState(manualTokens.toString());
   return (
     <div className="space-y-6">
       <div>
