@@ -154,11 +154,14 @@ export default function ModelDropdown({
 
           {/* Group models by provider */}
           {Object.entries(aiModels).map(([provider, categories]) => {
-            const providerModels = [
+            const allModels = [
               ...(categories.text || []),
               ...(categories.reasoning || []),
               ...(categories.vision || []),
-            ].filter((model) => enabledModels.includes(model));
+            ];
+            // Deduplicate models using Set
+            const uniqueModels = [...new Set(allModels)];
+            const providerModels = uniqueModels.filter((model) => enabledModels.includes(model));
 
             if (providerModels.length === 0) return null;
 
