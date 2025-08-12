@@ -111,7 +111,6 @@ export default function AIChat() {
     <div
       className={`min-h-screen w-full max-w-full flex flex-col ${themeClasses} transition-colors duration-300 overflow-x-hidden`}
       style={{ fontSize: `${fontSize}%` }}
-      suppressHydrationWarning
     >
       <ChatHeader
         handleNewChat={handleNewChat}
