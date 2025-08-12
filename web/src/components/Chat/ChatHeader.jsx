@@ -39,7 +39,7 @@ export default function ChatHeader({
 
           {/* Username - right on mobile, hidden on desktop (shown in UserMenu) */}
           {user && (
-            <div className="order-3 sm:hidden flex items-center gap-1 px-2 py-1 rounded-lg bg-opacity-10 border text-sm">
+            <div className="order-3 sm:hidden flex items-center gap-1 px-2 py-1 rounded-lg bg-opacity-10 border text-sm" suppressHydrationWarning>
               <span className="truncate max-w-20">{user.username}</span>
             </div>
           )}
