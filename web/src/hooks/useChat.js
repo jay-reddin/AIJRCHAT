@@ -135,10 +135,7 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: `🎨 Generate image: "${currentMessage}"`,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
       type: "image-generation-request",
     };
 
@@ -167,10 +164,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: `Generated image: "${imagePrompt}"`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: "dall-e-3",
         type: "image",
         imageUrl: imageResponse.src || imageResponse,
@@ -185,10 +179,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Image generation failed: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {
@@ -213,10 +204,7 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: currentMessage || "Analyze this image",
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
       type: "image-analysis-request",
       imageUrl: imageUrl,
     };
@@ -252,10 +240,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: analysisResponse.message?.content || analysisResponse,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: selectedModel,
         type: "image-analysis",
       };
@@ -269,10 +254,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Image analysis failed: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {
@@ -295,10 +277,7 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: currentMessage,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
     };
 
     setMessages((prev) => [userMessage, ...prev]);
@@ -345,10 +324,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: "",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: selectedModel,
       };
 
@@ -428,10 +404,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Error: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {
