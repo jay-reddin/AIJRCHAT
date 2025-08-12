@@ -7,6 +7,7 @@ export default function ModelDropdown({
   setSelectedModel,
   enabledModels,
   isSignedIn,
+  theme = "dark",
 }) {
   const [showModelDropdown, setShowModelDropdown] = useState(false);
   const [isClient, setIsClient] = useState(false);
