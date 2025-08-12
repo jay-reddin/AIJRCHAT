@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus, Settings } from "lucide-react";
 import ModelDropdown from "./ModelDropdown";
 import UserMenu from "./UserMenu";
 
