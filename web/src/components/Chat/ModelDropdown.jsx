@@ -130,7 +130,7 @@ export default function ModelDropdown({
       {isClient && showModelDropdown && (
         <div className="absolute top-full w-[351px] max-h-96 overflow-y-auto rounded-lg border shadow-xl z-50 flex flex-col justify-start items-center m-auto bg-gray-900/95 backdrop-blur-md border-gray-700">
           {/* Capability Legend */}
-          <div className="p-3 border-b border-opacity-20 bg-opacity-50 flex flex-col justify-start items-start">
+          <div className="p-3 border-b border-gray-700 bg-gray-800/50 flex flex-col justify-start items-start w-full">
             <h4 className="text-xs font-semibold mb-2">Capabilities</h4>
             <div className="grid grid-cols-2 gap-1 text-xs">
               <div className="flex items-center gap-1">
