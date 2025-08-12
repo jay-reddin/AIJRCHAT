@@ -340,34 +340,6 @@ export function Layout({ children }: { children: ReactNode }) {
   useRefresh();
   useDevServerHeartbeat();
 
-  // Add global error handler for debugging
-  useEffect(() => {
-    const handleError = (event: ErrorEvent) => {
-      console.error('Global error caught:', event.error);
-      window.parent.postMessage({
-        type: 'sandbox:web:error',
-        error: event.error?.message || 'Unknown error',
-        stack: event.error?.stack
-      }, '*');
-    };
-
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
-      console.error('Unhandled promise rejection:', event.reason);
-      window.parent.postMessage({
-        type: 'sandbox:web:error',
-        error: event.reason?.message || 'Promise rejection',
-        stack: event.reason?.stack
-      }, '*');
-    };
-
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleUnhandledRejection);
-
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
-    };
-  }, []);
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location?.pathname;
