@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { X } from "lucide-react";
 import UISettingsTab from "./UISettingsTab";
 import AIModelsSettingsTab from "./AIModelsSettingsTab";
