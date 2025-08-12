@@ -40,23 +40,23 @@ export default function TokenUsageTracker({ messages = [] }) {
 
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
-      <div className="flex items-center justify-between text-xs" suppressHydrationWarning>
+      <div className="flex items-center justify-between text-xs">
         <span className="text-gray-400">
-          Total Usage: {formatTokenCount(displayTokens)} / {formatTokenCount(TOKEN_LIMIT)}
-          {isClient && sessionTokens > 0 && (
+          Total Usage: {formatTokenCount(combinedTokens)} / {formatTokenCount(TOKEN_LIMIT)}
+          {sessionTokens > 0 && (
             <span className="text-xs ml-2 opacity-60">
               (+{formatTokenCount(sessionTokens)} this session)
             </span>
           )}
         </span>
         <span className={`font-medium ${
-          displayPercentage > 95
+          isAtLimit
             ? 'text-red-400'
-            : displayPercentage > 80
+            : isNearLimit
               ? 'text-yellow-400'
               : 'text-green-400'
         }`}>
-          {displayPercentage.toFixed(1)}%
+          {usagePercentage.toFixed(1)}%
         </span>
       </div>
       
