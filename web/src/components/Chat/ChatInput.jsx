@@ -131,7 +131,7 @@ const ChatInput = forwardRef(
           <button
             onClick={handleSendWithFiles}
             disabled={!currentMessage.trim() || isLoading || !isSignedIn}
-            className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#A855F7] text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:from-[#6D28D9] hover:to-[#9333EA] transition-all duration-200 shrink-0 flex flex-col justify-center items-center min-h-12 max-w-[70px]"
+            className="px-6 py-3 rounded-lg bg-gradient-to-r from-[#7C3AED] to-[#A855F7] text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:from-[#6D28D9] hover:to-[#9333EA] transition-all duration-200 shrink-0 flex flex-col justify-center items-center min-h-12 w-16"
           >
             <Send size={18} />
           </button>
