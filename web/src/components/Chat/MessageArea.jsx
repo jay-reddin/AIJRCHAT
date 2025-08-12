@@ -33,7 +33,6 @@ export default function MessageArea({
         scrollbarWidth: "none",
         msOverflowStyle: "none"
       }}
-      suppressHydrationWarning
     >
       {error && (
         <div className="bg-red-900 bg-opacity-20 border border-red-500 rounded-lg p-3 text-red-400 text-sm">
