@@ -29,19 +29,7 @@ function PuterLoader({ children }) {
       }
     }
 
-    // Register service worker for PWA (only in production-like environments)
-    if ("serviceWorker" in navigator && window.location.protocol === "https:") {
-      window.addEventListener("load", () => {
-        navigator.serviceWorker
-          .register("/sw.js")
-          .then((registration) => {
-            console.log("SW registered: ", registration);
-          })
-          .catch((registrationError) => {
-            console.warn("SW registration failed: ", registrationError);
-          });
-      });
-    }
+    // Service worker registration disabled - no sw.js file available
   }, []);
 
   return children;
