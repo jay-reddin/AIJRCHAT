@@ -10,6 +10,18 @@ export default function TokenUsageTracker({ messages = [] }) {
     // Load stored token usage on mount
     const stored = getStoredTokenUsage();
     setTotalTokens(stored);
+
+    // Listen for token usage updates from settings
+    const handleTokenUpdate = (event) => {
+      setTotalTokens(event.detail.tokens);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('tokenUsageUpdated', handleTokenUpdate);
+      return () => {
+        window.removeEventListener('tokenUsageUpdated', handleTokenUpdate);
+      };
+    }
   }, []);
 
   useEffect(() => {
