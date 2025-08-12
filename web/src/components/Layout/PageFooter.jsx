@@ -15,7 +15,7 @@ export default function PageFooter() {
       >
         Puter.com
       </a>{" "}
-      | Version: 1.5
+      | Version: 1.8
     </footer>
   );
 }
