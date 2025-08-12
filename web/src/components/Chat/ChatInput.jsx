@@ -89,7 +89,7 @@ const ChatInput = forwardRef(
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className={`px-3 py-2 rounded-lg text-xs transition-all duration-200 min-h-12 max-w-[70px] ${
+              className={`px-3 py-2 rounded-lg text-xs transition-all duration-200 min-h-12 w-16 ${
                 showAdvanced
                   ? isDark
                     ? "bg-blue-600 text-white"
