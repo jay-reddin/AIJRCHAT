@@ -9,8 +9,15 @@ export default function UISettingsTab({
   setFontSize,
   user,
 }) {
-  const [manualTokens, setManualTokens] = useState(getStoredTokenUsage());
-  const [tokenInputValue, setTokenInputValue] = useState(manualTokens.toString());
+  const [manualTokens, setManualTokens] = useState(0);
+  const [tokenInputValue, setTokenInputValue] = useState('0');
+
+  // Load stored tokens on client mount
+  useEffect(() => {
+    const stored = getStoredTokenUsage();
+    setManualTokens(stored);
+    setTokenInputValue(stored.toString());
+  }, []);
   return (
     <div className="space-y-6">
       <div>
