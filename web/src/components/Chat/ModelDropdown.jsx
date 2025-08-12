@@ -93,7 +93,7 @@ export default function ModelDropdown({
     <div className="relative flex flex-col">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
-        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-w-48"
+        className="justify-center flex flex-col items-center w-full px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-w-48"
         disabled={!isSignedIn}
       >
         <div className="flex flex-col items-start flex-1">
