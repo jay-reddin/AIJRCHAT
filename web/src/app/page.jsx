@@ -93,7 +93,11 @@ export default function AIChat() {
       : "bg-gradient-to-br from-[#F8F9FA] to-[#E9ECEF] text-[#000000]";
 
   // Show loading during SSR or client hydration
-  if (!isClient || authLoading) {
+  if (!isClient) {
+    return <LoadingScreen theme={theme} />;
+  }
+
+  if (authLoading) {
     return <LoadingScreen theme={theme} />;
   }
 
