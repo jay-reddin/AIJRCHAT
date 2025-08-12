@@ -16,6 +16,8 @@ export default function ModelDropdown({
     setIsClient(true);
   }, []);
 
+  const isDark = theme === "dark";
+
   const renderModelOption = (model) => {
     const capabilities = getModelCapabilities(model);
     const isSelected = selectedModel === model;
