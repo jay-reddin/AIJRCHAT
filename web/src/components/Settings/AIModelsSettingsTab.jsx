@@ -10,14 +10,14 @@ export default function AIModelsSettingsTab({
 
   // Separate OpenRouter models from others
   const openRouterModels = Object.entries(aiModels)
-    .filter(([provider]) => provider.toLowerCase().includes('openrouter'))
+    .filter(([provider]) => provider === 'OpenRouter')
     .reduce((acc, [provider, models]) => {
       acc[provider] = models;
       return acc;
     }, {});
 
   const regularModels = Object.entries(aiModels)
-    .filter(([provider]) => !provider.toLowerCase().includes('openrouter'))
+    .filter(([provider]) => provider !== 'OpenRouter')
     .reduce((acc, [provider, models]) => {
       acc[provider] = models;
       return acc;
