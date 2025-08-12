@@ -40,16 +40,9 @@ export default function TokenUsageTracker({ messages = [] }) {
   const isNearLimit = usagePercentage > 80;
   const isAtLimit = usagePercentage > 95;
 
-  // Don't render until client-side to prevent hydration mismatch
-  if (!isClient) {
-    return (
-      <div className="px-4 py-2 border-b border-gray-700/50">
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-gray-400">Loading usage...</span>
-        </div>
-      </div>
-    );
-  }
+  // Show consistent initial state during SSR
+  const displayTokens = isClient ? combinedTokens : 0;
+  const displayPercentage = isClient ? usagePercentage : 0;
 
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
