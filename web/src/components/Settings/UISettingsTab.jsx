@@ -17,7 +17,11 @@ export default function UISettingsTab({
         <select
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
-          className="w-full px-3 py-2 rounded-lg bg-opacity-10 border focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className={`w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+            theme === 'dark'
+              ? 'bg-gray-800 text-white border-gray-600'
+              : 'bg-white text-black border-gray-300'
+          }`}
         >
           <option value="dark">Dark</option>
           <option value="light">Light</option>
