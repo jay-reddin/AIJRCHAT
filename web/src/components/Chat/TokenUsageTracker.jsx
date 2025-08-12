@@ -38,10 +38,6 @@ export default function TokenUsageTracker({ messages = [] }) {
   const isNearLimit = usagePercentage > 80;
   const isAtLimit = usagePercentage > 95;
 
-  // Prevent hydration mismatch by not rendering until client mount
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
