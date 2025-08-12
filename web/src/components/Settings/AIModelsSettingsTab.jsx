@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { aiModels } from "../../data/ai-models.js";
 
 export default function AIModelsSettingsTab({
@@ -5,6 +6,22 @@ export default function AIModelsSettingsTab({
   toggleModelEnabled,
   handleSaveSettings,
 }) {
+  const [openRouterEnabled, setOpenRouterEnabled] = useState(false);
+
+  // Separate OpenRouter models from others
+  const openRouterModels = Object.entries(aiModels)
+    .filter(([provider]) => provider.toLowerCase().includes('openrouter'))
+    .reduce((acc, [provider, models]) => {
+      acc[provider] = models;
+      return acc;
+    }, {});
+
+  const regularModels = Object.entries(aiModels)
+    .filter(([provider]) => !provider.toLowerCase().includes('openrouter'))
+    .reduce((acc, [provider, models]) => {
+      acc[provider] = models;
+      return acc;
+    }, {});
   return (
     <div className="space-y-6">
       <div className="max-h-64 overflow-y-auto space-y-4">
