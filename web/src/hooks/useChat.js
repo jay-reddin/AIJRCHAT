@@ -62,6 +62,15 @@ export default function useChat({
   inputRef,
 }) {
   const [messages, setMessages] = useState([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize messages after client mount to prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+    if (!isSignedIn) {
+      setMessages(conversationHistory.messages);
+    }
+  }, [isSignedIn]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
