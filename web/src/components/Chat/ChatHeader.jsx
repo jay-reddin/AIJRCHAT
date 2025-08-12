@@ -14,7 +14,7 @@ export default function ChatHeader({
   theme,
 }) {
   return (
-    <header className="w-full max-w-full px-4 py-3 border-b border-opacity-20 bg-opacity-80 backdrop-blur-sm sm:flex sm:flex-row sm:justify-between sm:items-center max-sm:w-full max-sm:flex max-sm:flex-col max-sm:justify-start max-sm:items-center">
+    <header className="w-full max-w-full px-4 py-3 border-b border-opacity-20 bg-opacity-80 backdrop-blur-sm">
       <div className="flex items-center justify-between gap-2">
         <button
           onClick={handleNewChat}
