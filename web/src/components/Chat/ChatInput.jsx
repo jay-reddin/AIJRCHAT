@@ -84,7 +84,7 @@ const ChatInput = forwardRef(
         )}
 
         {/* Main Input Area */}
-        <div className="flex gap-3 items-end">
+        <div className="flex gap-2 sm:gap-3 items-end w-full">
           {/* Left side controls */}
           <div className="flex items-center gap-2">
             <button
