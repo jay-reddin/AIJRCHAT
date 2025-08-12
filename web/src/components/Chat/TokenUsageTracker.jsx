@@ -12,9 +12,12 @@ export default function TokenUsageTracker({ messages = [] }) {
 
   useEffect(() => {
     // Mark as client-side and load stored token usage
+    setIsMounted(true);
     setIsClient(true);
-    const stored = getStoredTokenUsage();
-    setTotalTokens(stored);
+    if (typeof window !== 'undefined') {
+      const stored = getStoredTokenUsage();
+      setTotalTokens(stored);
+    }
   }, []);
 
   useEffect(() => {
