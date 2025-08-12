@@ -6,4 +6,19 @@
   input, textarea, select, button {
     @apply outline-none focus:outline-none;
   }
+
+  /* Hide scrollbars globally */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For specific elements that need hidden scrollbars */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
