@@ -72,6 +72,8 @@ export default function AIModeSelector({
 
   return (
     <div className="border-b border-opacity-20 p-4 space-y-3">
+      {/* Token Usage Tracker */}
+      <TokenUsageTracker messages={messages} />
       {/* Mode Selector */}
       <div className="flex items-center gap-3">
         <div className="relative">
