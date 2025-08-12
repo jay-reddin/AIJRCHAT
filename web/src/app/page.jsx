@@ -126,6 +126,8 @@ export default function AIChat() {
         selectedModel={selectedModel}
       />
 
+      <TokenUsageTracker messages={messages} />
+
       <MessageArea
         messages={messages}
         isLoading={isLoading}
