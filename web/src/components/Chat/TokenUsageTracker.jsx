@@ -4,26 +4,33 @@ import { getStoredTokenUsage, addTokenUsage } from '../../utils/tokenStorage.js'
 
 export default function TokenUsageTracker({ messages = [] }) {
   const [totalTokens, setTotalTokens] = useState(0);
+  const [sessionTokens, setSessionTokens] = useState(0);
 
   useEffect(() => {
-    // Calculate total tokens from all messages
-    let total = 0;
-    
+    // Load stored token usage on component mount
+    const stored = getStoredTokenUsage();
+    setTotalTokens(stored);
+  }, []);
+
+  useEffect(() => {
+    // Calculate tokens from current session messages
+    let sessionTotal = 0;
+
     messages.forEach(message => {
       // Estimate tokens based on message content length
       if (message.content) {
-        total += Math.ceil(message.content.length / 4);
+        sessionTotal += Math.ceil(message.content.length / 4);
       }
-      
+
       // Add tokens for any attachments (if messages have file data)
       if (message.files && message.files.length > 0) {
         message.files.forEach(file => {
-          total += file.type?.startsWith('image/') ? 765 : 100;
+          sessionTotal += file.type?.startsWith('image/') ? 765 : 100;
         });
       }
     });
-    
-    setTotalTokens(total);
+
+    setSessionTokens(sessionTotal);
   }, [messages]);
 
   const usagePercentage = (totalTokens / TOKEN_LIMIT) * 100;
