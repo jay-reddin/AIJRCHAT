@@ -27,7 +27,7 @@ export default function MessageArea({
   return (
     <div
       ref={messagesRef}
-      className={`flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 ${messageBoxClasses} border-2 rounded-lg mx-2 sm:mx-4 mt-4`}
+      className={`flex-1 overflow-y-auto p-2 sm:p-4 space-y-4 ${messageBoxClasses} border-2 rounded-lg mx-2 sm:mx-4 mt-4 scrollbar-hide`}
       style={{
         maxHeight: "calc(100vh - 200px)",
         scrollbarWidth: "none",
