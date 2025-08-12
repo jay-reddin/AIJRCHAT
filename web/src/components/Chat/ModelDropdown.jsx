@@ -97,7 +97,7 @@ export default function ModelDropdown({
         disabled={!isSignedIn}
       >
         {/* Mobile Layout - Row */}
-        <div className="flex items-center gap-2 flex-1 sm:hidden">
+        <div className="flex items-center justify-center gap-2 flex-1 sm:hidden">
           <span className="font-medium truncate text-sm">{selectedModel}</span>
           <div className="flex gap-1">
             {currentCapabilities.functions && (
