@@ -72,7 +72,7 @@ export default function AIModeSelector({
   };
 
   return (
-    <div className="border-b border-opacity-20 p-4 space-y-3">
+    <div className="border-b border-opacity-20 p-4 space-y-3" suppressHydrationWarning>
       {/* Token Usage Tracker */}
       <ClientOnlyWrapper>
         <TokenUsageTracker messages={messages} />
