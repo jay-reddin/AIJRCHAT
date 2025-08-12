@@ -90,20 +90,40 @@ export default function ModelDropdown({
   const currentCapabilities = getModelCapabilities(selectedModel);
 
   return (
-    <div className="relative flex flex-col">
+    <div className="relative w-full">
       <button
         onClick={() => setShowModelDropdown(!showModelDropdown)}
-        className="justify-center flex flex-col items-center w-full px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-w-48"
+        className="flex items-center justify-between w-full px-2 sm:px-4 py-2 rounded-lg bg-opacity-10 border backdrop-blur-sm hover:bg-opacity-20 transition-all duration-200 min-h-[40px]"
         disabled={!isSignedIn}
       >
-        <div className="flex flex-col items-center flex-1 justify-center">
+        {/* Mobile Layout - Row */}
+        <div className="flex items-center gap-2 flex-1 sm:hidden">
+          <span className="font-medium truncate text-sm">{selectedModel}</span>
+          <div className="flex gap-1">
+            {currentCapabilities.functions && (
+              <Zap size={8} className="text-yellow-500" />
+            )}
+            {currentCapabilities.vision && (
+              <Eye size={8} className="text-blue-500" />
+            )}
+            {currentCapabilities.imageGeneration && (
+              <ImageIcon size={8} className="text-green-500" />
+            )}
+            {currentCapabilities.reasoning && (
+              <Brain size={8} className="text-purple-500" />
+            )}
+          </div>
+        </div>
+
+        {/* Desktop Layout - Column */}
+        <div className="hidden sm:flex flex-col items-center flex-1 justify-center">
           <span className="font-medium truncate max-w-36">{selectedModel}</span>
           <div className="flex gap-1 mt-0.5">
             {currentCapabilities.functions && (
               <Zap size={10} className="text-yellow-500" />
             )}
             {currentCapabilities.vision && (
-              <Eye size={10} className="text-blue-500 flex flex-col justify-center" />
+              <Eye size={10} className="text-blue-500" />
             )}
             {currentCapabilities.imageGeneration && (
               <ImageIcon size={10} className="text-green-500" />
@@ -113,9 +133,10 @@ export default function ModelDropdown({
             )}
           </div>
         </div>
+
         <ChevronDown
-          size={16}
-          className={`transition-transform ${
+          size={14}
+          className={`transition-transform ml-1 ${
             showModelDropdown ? "rotate-180" : ""
           }`}
         />
