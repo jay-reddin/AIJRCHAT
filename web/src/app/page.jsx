@@ -11,6 +11,7 @@ import AIModeSelector from "../components/Chat/AIModeSelector.jsx";
 import MessageArea from "../components/Chat/MessageArea.jsx";
 import ChatInput from "../components/Chat/ChatInput.jsx";
 import SettingsModal from "../components/Settings/SettingsModal.jsx";
+import TokenUsageTracker from "../components/Chat/TokenUsageTracker.jsx";
 
 export default function AIChat() {
   const {
