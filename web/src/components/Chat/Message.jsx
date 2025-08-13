@@ -23,6 +23,30 @@ function SafeReactMarkdown({ children }) {
   );
 }
 
+// Function to extract file attachments from message content
+function extractFileAttachments(content) {
+  const files = [];
+  const imageMatches = content.match(/\[Image: ([^\]]+)\]/g);
+  const fileMatches = content.match(/\[File: ([^\]]+)\]\n```\n([\s\S]*?)\n```/g);
+
+  if (imageMatches) {
+    imageMatches.forEach(match => {
+      const name = match.match(/\[Image: ([^\]]+)\]/)[1];
+      files.push({ type: 'image', name });
+    });
+  }
+
+  if (fileMatches) {
+    fileMatches.forEach(match => {
+      const [, name] = match.match(/\[File: ([^\]]+)\]/);
+      const [, , content] = match.match(/\[File: ([^\]]+)\]\n```\n([\s\S]*?)\n```/);
+      files.push({ type: 'file', name, content });
+    });
+  }
+
+  return files;
+}
+
 export default function Message({
   message,
   onResend,
@@ -31,6 +55,7 @@ export default function Message({
   theme,
 }) {
   const isDark = theme === "dark";
+  const attachedFiles = extractFileAttachments(message.content || '');
 
   return (
     <div
