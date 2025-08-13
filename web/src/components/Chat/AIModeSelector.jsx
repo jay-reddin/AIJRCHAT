@@ -144,6 +144,14 @@ export default function AIModeSelector({
             <span>Reasoning</span>
           </div>
         )}
+
+        {/* Coding indicator */}
+        {modelCapabilities.coding && (
+          <div className="flex items-center gap-1 text-xs opacity-70">
+            <span>💻</span>
+            <span>Coding</span>
+          </div>
+        )}
       </div>
 
       {/* Image Analysis Controls */}
