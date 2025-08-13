@@ -5,7 +5,7 @@ import { File, Image as ImageIcon, FileText } from "lucide-react";
 import CodeBlock from "./CodeBlock.jsx";
 
 // SSR-safe ReactMarkdown wrapper with custom code block rendering
-function SafeReactMarkdown({ children, theme }) {
+function SafeReactMarkdown({ children, theme, isStreaming = false, message = {} }) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
