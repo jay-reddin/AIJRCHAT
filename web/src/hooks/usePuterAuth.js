@@ -4,6 +4,7 @@ export default function usePuterAuth() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isClient, setIsClient] = useState(false);
 
   // Check authentication status on component mount and when window regains focus
   const checkAuthStatus = async () => {
@@ -63,8 +64,15 @@ export default function usePuterAuth() {
     }
   };
 
+  // Track client-side mounting
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   // Wait for Puter to load, then check auth status
   useEffect(() => {
+    if (!isClient) return;
+
     const waitForPuter = () => {
       if (typeof window !== 'undefined' && window.puter) {
         checkAuthStatus();
@@ -75,10 +83,12 @@ export default function usePuterAuth() {
     };
 
     waitForPuter();
-  }, []);
+  }, [isClient]);
 
   // Listen for focus events to refresh auth state
   useEffect(() => {
+    if (!isClient || typeof window === 'undefined') return;
+
     const handleFocus = () => {
       if (!isLoading) {
         checkAuthStatus();
@@ -87,7 +97,7 @@ export default function usePuterAuth() {
 
     window.addEventListener('focus', handleFocus);
     return () => window.removeEventListener('focus', handleFocus);
-  }, [isLoading]);
+  }, [isLoading, isClient]);
 
   return {
     isSignedIn,

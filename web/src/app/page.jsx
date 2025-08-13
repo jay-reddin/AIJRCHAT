@@ -1,7 +1,12 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import usePuterAuth from "../hooks/usePuterAuth";
 import useChat from "../hooks/useChat.js";
 import { defaultModels } from "../data/ai-models.js";
+
+// Add clientLoader for SPA mode compatibility
+export function clientLoader() {
+  return null;
+}
 
 import LoadingScreen from "../components/Auth/LoadingScreen.jsx";
 import AuthScreen from "../components/Auth/AuthScreen.jsx";
@@ -12,8 +17,16 @@ import MessageArea from "../components/Chat/MessageArea.jsx";
 import ChatInput from "../components/Chat/ChatInput.jsx";
 import SettingsModal from "../components/Settings/SettingsModal.jsx";
 import TokenUsageTracker from "../components/Chat/TokenUsageTracker.jsx";
+import ClientOnlyWrapper from "../components/Chat/ClientOnlyWrapper.jsx";
 
 export default function AIChat() {
+  const [isClient, setIsClient] = useState(false);
+
+  // Prevent hydration mismatch by only showing client content after mount
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const {
     isSignedIn,
     user,
@@ -85,6 +98,11 @@ export default function AIChat() {
       ? "bg-gradient-to-br from-[#0E0E10] to-[#1B1B1E] text-white"
       : "bg-gradient-to-br from-[#F8F9FA] to-[#E9ECEF] text-[#000000]";
 
+  // Show loading during SSR or client hydration
+  if (!isClient) {
+    return <LoadingScreen theme={theme} />;
+  }
+
   if (authLoading) {
     return <LoadingScreen theme={theme} />;
   }
@@ -100,36 +118,36 @@ export default function AIChat() {
       className={`min-h-screen w-full max-w-full flex flex-col ${themeClasses} transition-colors duration-300 overflow-x-hidden`}
       style={{ fontSize: `${fontSize}%` }}
     >
-      <div suppressHydrationWarning>
-        <ChatHeader
-          handleNewChat={handleNewChat}
-          selectedModel={selectedModel}
-          setSelectedModel={setSelectedModel}
-          enabledModels={enabledModels}
-          isSignedIn={isSignedIn}
-          user={user}
-          setShowSettings={setShowSettings}
-          handleSignOut={handleSignOut}
-          theme={theme}
-        />
-      </div>
+      <ChatHeader
+        handleNewChat={handleNewChat}
+        selectedModel={selectedModel}
+        setSelectedModel={setSelectedModel}
+        enabledModels={enabledModels}
+        isSignedIn={isSignedIn}
+        user={user}
+        setShowSettings={setShowSettings}
+        handleSignOut={handleSignOut}
+        theme={theme}
+      />
 
-      <div suppressHydrationWarning>
-        <AIModeSelector
-          chatMode={chatMode}
-          setChatMode={setChatMode}
-          imageUrl={imageUrl}
-          setImageUrl={setImageUrl}
-          enableFunctions={enableFunctions}
-          setEnableFunctions={setEnableFunctions}
-          enableStreaming={enableStreaming}
-          setEnableStreaming={setEnableStreaming}
-          currentMessage={currentMessage}
-          setCurrentMessage={setCurrentMessage}
-          selectedModel={selectedModel}
-          messages={messages}
-        />
-      </div>
+      <ClientOnlyWrapper>
+        <TokenUsageTracker messages={messages} />
+      </ClientOnlyWrapper>
+
+      <AIModeSelector
+        chatMode={chatMode}
+        setChatMode={setChatMode}
+        imageUrl={imageUrl}
+        setImageUrl={setImageUrl}
+        enableFunctions={enableFunctions}
+        setEnableFunctions={setEnableFunctions}
+        enableStreaming={enableStreaming}
+        setEnableStreaming={setEnableStreaming}
+        currentMessage={currentMessage}
+        setCurrentMessage={setCurrentMessage}
+        selectedModel={selectedModel}
+        messages={messages}
+      />
 
       <MessageArea
         messages={messages}

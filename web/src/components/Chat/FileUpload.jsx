@@ -1,189 +1,188 @@
-import { useState, useCallback } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Upload, X, File, Image, FileText } from 'lucide-react';
-import useUpload from '@/utils/useUpload';
 
-export default function FileUpload({ onFileUploaded, theme, disabled }) {
-  const [dragActive, setDragActive] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [upload, { loading }] = useUpload();
-
+export default function FileUpload({ onFileUploaded, attachedFiles, setAttachedFiles, theme = 'dark' }) {
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef(null);
   const isDark = theme === 'dark';
 
-  const handleDrag = useCallback((e) => {
+  const handleDrop = useCallback((e) => {
     e.preventDefault();
-    e.stopPropagation();
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true);
-    } else if (e.type === 'dragleave') {
-      setDragActive(false);
-    }
+    setIsDragOver(false);
+    
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
   }, []);
 
-  const handleDrop = useCallback(async (e) => {
+  const handleDragOver = useCallback((e) => {
     e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
+    setIsDragOver(true);
+  }, []);
 
-    if (disabled || loading) return;
+  const handleDragLeave = useCallback((e) => {
+    e.preventDefault();
+    setIsDragOver(false);
+  }, []);
 
-    const files = Array.from(e.dataTransfer.files);
-    await processFiles(files);
-  }, [disabled, loading]);
-
-  const handleFileInput = useCallback(async (e) => {
-    if (disabled || loading) return;
-
+  const handleFileSelect = useCallback((e) => {
     const files = Array.from(e.target.files);
-    await processFiles(files);
-    e.target.value = ''; // Reset input
-  }, [disabled, loading]);
+    handleFiles(files);
+  }, []);
 
-  const processFiles = async (files) => {
-    for (const file of files) {
-      // Check file size (10MB limit)
-      if (file.size > 10 * 1024 * 1024) {
+  const handleFiles = useCallback((files) => {
+    files.forEach(file => {
+      // Validate file type and size
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
         alert(`File ${file.name} is too large. Maximum size is 10MB.`);
-        continue;
+        return;
       }
 
-      // Check file type
       const allowedTypes = [
-        'image/jpeg', 'image/png', 'image/gif', 'image/webp',
-        'application/pdf',
-        'text/plain', 'text/csv',
-        'application/json',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/msword'
+        'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp',
+        'text/plain', 'text/csv', 'application/json', 'text/markdown',
+        'application/pdf', 'text/html', 'text/css', 'text/javascript'
       ];
 
       if (!allowedTypes.includes(file.type)) {
         alert(`File type ${file.type} is not supported.`);
-        continue;
+        return;
       }
 
-      try {
-        // Convert file to base64 for upload
-        const base64 = await fileToBase64(file);
-        const { url, mimeType, error } = await upload({ base64 });
-
-        if (error) {
-          alert(`Failed to upload ${file.name}: ${error}`);
-          continue;
-        }
-
-        const uploadedFile = {
+      // Create file object
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileObj = {
+          id: Date.now() + Math.random(),
           name: file.name,
           type: file.type,
           size: file.size,
-          url: url,
-          mimeType: mimeType
+          content: e.target.result,
+          isImage: file.type.startsWith('image/'),
+          isText: file.type.startsWith('text/') || file.type.includes('json'),
         };
 
-        setUploadedFiles(prev => [...prev, uploadedFile]);
-        onFileUploaded(uploadedFile);
-      } catch (error) {
-        console.error('Upload error:', error);
-        alert(`Failed to upload ${file.name}`);
+        setAttachedFiles(prev => [...prev, fileObj]);
+        if (onFileUploaded) {
+          onFileUploaded(fileObj);
+        }
+      };
+
+      if (file.type.startsWith('image/')) {
+        reader.readAsDataURL(file);
+      } else {
+        reader.readAsText(file);
       }
-    }
-  };
-
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
     });
-  };
+  }, [onFileUploaded, setAttachedFiles]);
 
-  const removeFile = (index) => {
-    setUploadedFiles(prev => prev.filter((_, i) => i !== index));
-  };
+  const removeFile = useCallback((fileId) => {
+    setAttachedFiles(prev => prev.filter(f => f.id !== fileId));
+  }, [setAttachedFiles]);
 
-  const getFileIcon = (type) => {
-    if (type.startsWith('image/')) return <Image size={16} />;
-    if (type === 'application/pdf') return <FileText size={16} />;
+  const getFileIcon = (file) => {
+    if (file.isImage) return <Image size={16} />;
+    if (file.isText) return <FileText size={16} />;
     return <File size={16} />;
   };
 
   return (
     <div className="space-y-3">
-      {/* Upload Area */}
+      {/* Drop zone */}
       <div
-        className={`relative border-2 border-dashed rounded-lg p-4 transition-all duration-200 ${
-          dragActive
-            ? isDark
-              ? 'border-purple-400 bg-purple-900/20'
-              : 'border-purple-500 bg-purple-50'
-            : isDark
-            ? 'border-[#374151] hover:border-[#4B5563]'
-            : 'border-[#E5E7EB] hover:border-[#D1D5DB]'
-        } ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
-        onDragEnter={handleDrag}
-        onDragLeave={handleDrag}
-        onDragOver={handleDrag}
         onDrop={handleDrop}
-        onClick={() => !disabled && document.getElementById('file-input').click()}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onClick={() => fileInputRef.current?.click()}
+        className={`
+          border-2 border-dashed rounded-lg p-4 cursor-pointer transition-all duration-200
+          ${isDragOver 
+            ? 'border-purple-500 bg-purple-500/10' 
+            : isDark 
+              ? 'border-gray-600 hover:border-gray-500 bg-gray-800/30' 
+              : 'border-gray-300 hover:border-gray-400 bg-gray-50'
+          }
+        `}
       >
-        <input
-          id="file-input"
-          type="file"
-          multiple
-          className="hidden"
-          onChange={handleFileInput}
-          disabled={disabled}
-          accept="image/*,.pdf,.txt,.csv,.json,.docx,.doc"
-        />
-        
-        <div className="text-center">
-          <Upload size={24} className={`mx-auto mb-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`} />
-          <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            {loading ? 'Uploading...' : 'Drop files here or click to browse'}
+        <div className="flex flex-col items-center gap-2 text-center">
+          <Upload size={20} className={isDark ? 'text-gray-400' : 'text-gray-500'} />
+          <p className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+            Drop files here or click to browse
           </p>
-          <p className={`text-xs mt-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-            Images, PDFs, Text, JSON, Word docs (max 10MB)
+          <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
+            Images, text files, JSON, PDF (max 10MB)
           </p>
         </div>
       </div>
 
-      {/* Uploaded Files List */}
-      {uploadedFiles.length > 0 && (
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        accept=".jpg,.jpeg,.png,.gif,.webp,.txt,.csv,.json,.md,.pdf,.html,.css,.js"
+        onChange={handleFileSelect}
+        className="hidden"
+      />
+
+      {/* Attached files preview */}
+      {attachedFiles.length > 0 && (
         <div className="space-y-2">
-          <p className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
-            Uploaded Files:
-          </p>
-          {uploadedFiles.map((file, index) => (
-            <div
-              key={index}
-              className={`flex items-center justify-between p-2 rounded border ${
-                isDark
-                  ? 'bg-[#1B1B1E] border-[#374151]'
-                  : 'bg-[#F8F9FA] border-[#E5E7EB]'
-              }`}
-            >
-              <div className="flex items-center gap-2">
-                {getFileIcon(file.type)}
-                <div>
-                  <p className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+          <h4 className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            Attached Files ({attachedFiles.length})
+          </h4>
+          <div className="space-y-2 max-h-40 overflow-y-auto">
+            {attachedFiles.map(file => (
+              <div
+                key={file.id}
+                className={`
+                  flex items-center gap-3 p-2 rounded-lg border
+                  ${isDark 
+                    ? 'bg-gray-800/50 border-gray-600' 
+                    : 'bg-gray-50 border-gray-200'
+                  }
+                `}
+              >
+                {/* File thumbnail/icon */}
+                <div className="flex-shrink-0">
+                  {file.isImage ? (
+                    <img
+                      src={file.content}
+                      alt={file.name}
+                      className="w-10 h-10 object-cover rounded border"
+                    />
+                  ) : (
+                    <div className={`
+                      w-10 h-10 rounded border flex items-center justify-center
+                      ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-300'}
+                    `}>
+                      {getFileIcon(file)}
+                    </div>
+                  )}
+                </div>
+
+                {/* File info */}
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-medium truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     {file.name}
                   </p>
-                  <p className={`text-xs ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                  <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                    {file.type} • {(file.size / 1024).toFixed(1)} KB
                   </p>
                 </div>
+
+                {/* Remove button */}
+                <button
+                  onClick={() => removeFile(file.id)}
+                  className={`
+                    p-1 rounded hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors
+                  `}
+                  title="Remove file"
+                >
+                  <X size={16} />
+                </button>
               </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeFile(index);
-                }}
-                className={`p-1 rounded hover:bg-red-500/20 ${isDark ? 'text-gray-400 hover:text-red-400' : 'text-gray-500 hover:text-red-500'}`}
-              >
-                <X size={16} />
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>

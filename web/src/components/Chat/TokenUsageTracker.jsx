@@ -5,11 +5,27 @@ import { getStoredTokenUsage, addTokenUsage } from '../../utils/tokenStorage.js'
 export default function TokenUsageTracker({ messages = [] }) {
   const [totalTokens, setTotalTokens] = useState(0);
   const [sessionTokens, setSessionTokens] = useState(0);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Load stored token usage on mount
+    // Mark as client-side
+    setIsClient(true);
+
+    // Load stored token usage on mount (client-side only)
     const stored = getStoredTokenUsage();
     setTotalTokens(stored);
+
+    // Listen for token usage updates from settings
+    const handleTokenUpdate = (event) => {
+      setTotalTokens(event.detail.tokens);
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('tokenUsageUpdated', handleTokenUpdate);
+      return () => {
+        window.removeEventListener('tokenUsageUpdated', handleTokenUpdate);
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -38,11 +54,16 @@ export default function TokenUsageTracker({ messages = [] }) {
   const isNearLimit = usagePercentage > 80;
   const isAtLimit = usagePercentage > 95;
 
+  // Don't render until client-side to avoid hydration mismatch
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <div className="px-4 py-2 border-b border-gray-700/50">
-      <div className="flex items-center justify-between text-xs">
+      <div className="flex items-start justify-center text-xs">
         <span className="text-gray-400">
-          Total Usage: {formatTokenCount(combinedTokens)} / {formatTokenCount(TOKEN_LIMIT)}
+          Total Usage: {formatTokenCount(combinedTokens)} / <span className="mr-2.5">{formatTokenCount(TOKEN_LIMIT)} --</span>
           {sessionTokens > 0 && (
             <span className="text-xs ml-2 opacity-60">
               (+{formatTokenCount(sessionTokens)} this session)

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, Zap, Eye, Image as ImageIcon, Brain } from "lucide-react";
+import { ChevronDown, Zap, Eye, Image as ImageIcon, Brain, Code } from "lucide-react";
 import { aiModels, getModelCapabilities } from "../../data/ai-models.js";
 
 export default function ModelDropdown({
@@ -68,6 +68,13 @@ export default function ModelDropdown({
                     title="Advanced reasoning"
                   />
                 )}
+                {capabilities.coding && (
+                  <Code
+                    size={12}
+                    className="text-orange-500"
+                    title="Coding capabilities"
+                  />
+                )}
               </div>
             </div>
             <p className="text-xs opacity-70 mt-1 line-clamp-2">
@@ -122,6 +129,9 @@ export default function ModelDropdown({
             {currentCapabilities.reasoning && (
               <Brain size={16} className="text-purple-500 mr-2.5" />
             )}
+            {currentCapabilities.coding && (
+              <Code size={16} className="text-orange-500 mr-2.5" />
+            )}
           </div>
         </div>
 
@@ -162,6 +172,10 @@ export default function ModelDropdown({
               <div className="flex items-center gap-1">
                 <Brain size={10} className="text-purple-500" />
                 <span>Reasoning</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Code size={10} className="text-orange-500" />
+                <span>Coding</span>
               </div>
             </div>
           </div>

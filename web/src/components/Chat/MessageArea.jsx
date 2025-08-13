@@ -61,7 +61,7 @@ export default function MessageArea({
         </div>
       )}
 
-      {messages.map((message) => (
+      {messages.map((message, index) => (
         <Message
           key={message.id}
           message={message}
@@ -69,18 +69,10 @@ export default function MessageArea({
           onResend={onResend}
           onCopy={onCopy}
           onDelete={onDelete}
+          isStreaming={isLoading && index === 0 && message.role === 'assistant'}
         />
       ))}
 
-      {messages.length === 0 && isSignedIn && (
-        <div
-          className={`text-center opacity-50 py-12 ${
-            theme === "dark" ? "text-white" : "text-[#000000]"
-          }`}
-        >
-          <p>Start a conversation with an AI model</p>
-        </div>
-      )}
     </div>
   );
 }

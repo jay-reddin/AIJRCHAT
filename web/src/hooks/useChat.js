@@ -47,7 +47,7 @@ const executeFunction = (functionName, args) => {
       return JSON.stringify({
         datetime: now.toISOString(),
         local_time: now.toLocaleString(),
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        timezone: typeof Intl !== 'undefined' ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'UTC',
       });
 
     default:
@@ -61,9 +61,20 @@ export default function useChat({
   selectedModel,
   inputRef,
 }) {
-  const [messages, setMessages] = useState(
-    isSignedIn ? [] : conversationHistory.messages,
-  );
+  const [messages, setMessages] = useState([]);
+  const [isClient, setIsClient] = useState(false);
+
+  // Initialize messages after client mount to prevent hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+    if (!isSignedIn) {
+      setMessages(conversationHistory.messages);
+    }
+  }, [isClient, isSignedIn]);
   const [currentMessage, setCurrentMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -112,7 +123,9 @@ export default function useChat({
   };
 
   const handleCopy = (content) => {
-    navigator.clipboard.writeText(content);
+    if (typeof navigator !== 'undefined' && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+    }
   };
 
   const handleDelete = (messageId) => {
@@ -135,10 +148,7 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: `🎨 Generate image: "${currentMessage}"`,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
       type: "image-generation-request",
     };
 
@@ -149,7 +159,7 @@ export default function useChat({
     setError(null);
 
     try {
-      if (!window.puter) {
+      if (typeof window === 'undefined' || !window.puter) {
         throw new Error(
           "Puter is still loading. Please wait a moment and try again.",
         );
@@ -167,10 +177,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: `Generated image: "${imagePrompt}"`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: "dall-e-3",
         type: "image",
         imageUrl: imageResponse.src || imageResponse,
@@ -185,10 +192,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Image generation failed: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {
@@ -213,10 +217,7 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: currentMessage || "Analyze this image",
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
       type: "image-analysis-request",
       imageUrl: imageUrl,
     };
@@ -252,10 +253,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: analysisResponse.message?.content || analysisResponse,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: selectedModel,
         type: "image-analysis",
       };
@@ -269,10 +267,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Image analysis failed: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {
@@ -280,7 +275,7 @@ export default function useChat({
     }
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (attachedFiles = []) => {
     if (!currentMessage.trim() || isLoading || !isSignedIn) return;
 
     // Route to appropriate handler based on chat mode
@@ -295,10 +290,8 @@ export default function useChat({
       id: generateMessageId(),
       role: "user",
       content: currentMessage,
-      timestamp: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
+      timestamp: new Date().toLocaleTimeString(),
+      files: attachedFiles || [],
     };
 
     setMessages((prev) => [userMessage, ...prev]);
@@ -345,10 +338,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "assistant",
         content: "",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
         model: selectedModel,
       };
 
@@ -428,10 +418,7 @@ export default function useChat({
         id: generateMessageId(),
         role: "error",
         content: `Error: ${error.message}`,
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+        timestamp: new Date().toLocaleTimeString(),
       };
       setMessages((prev) => [errorMsg, ...prev]);
     } finally {

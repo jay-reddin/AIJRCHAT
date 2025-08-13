@@ -2,6 +2,7 @@ import { forwardRef, useState, useCallback, useMemo } from "react";
 import { Send } from "lucide-react";
 import { estimateTokens, formatTokenCount } from "../../utils/tokenCounter.js";
 import ClientOnlyWrapper from "./ClientOnlyWrapper.jsx";
+import FileUpload from "./FileUpload.jsx";
 
 const ChatInput = forwardRef(
   (
@@ -41,10 +42,15 @@ const ChatInput = forwardRef(
 
     const handleFileUploaded = useCallback(
       (file) => {
-        setAttachedFiles((prev) => [...prev, file]);
-        // Add file reference to message
-        const fileText = `\n\n[Attached: ${file.name}]\nFile URL: ${file.url}`;
-        setCurrentMessage((prev) => prev + fileText);
+        // File is already added to attachedFiles by FileUpload component
+        // Add file reference to message for context
+        if (file.isText && file.content) {
+          const fileText = `\n\n[File: ${file.name}]\n\`\`\`\n${file.content}\n\`\`\`\n`;
+          setCurrentMessage((prev) => prev + fileText);
+        } else if (file.isImage) {
+          const fileText = `\n\n[Image: ${file.name}]\n`;
+          setCurrentMessage((prev) => prev + fileText);
+        }
       },
       [setCurrentMessage],
     );
@@ -57,15 +63,8 @@ const ChatInput = forwardRef(
     );
 
     const handleSendWithFiles = () => {
-      if (attachedFiles.length > 0) {
-        // Include file information in the message
-        let messageWithFiles = currentMessage;
-        attachedFiles.forEach((file) => {
-          messageWithFiles += `\n\nFile: ${file.name} (${file.type})\nURL: ${file.url}`;
-        });
-        setCurrentMessage(messageWithFiles);
-      }
-      handleSendMessage();
+      // Files are already included in the message content by handleFileUploaded
+      handleSendMessage(attachedFiles);
       setAttachedFiles([]);
     };
 
@@ -89,7 +88,7 @@ const ChatInput = forwardRef(
             </div>
           )}
         </ClientOnlyWrapper>
-        {/* Advanced Features */}
+        {/* File Upload */}
         {showAdvanced && (
           <div
             className={`p-4 rounded-lg border ${
@@ -98,13 +97,12 @@ const ChatInput = forwardRef(
                 : "bg-[#F8F9FA] border-[#E5E7EB]"
             }`}
           >
-            <div className="text-center p-4">
-              <p
-                className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}
-              >
-                Advanced features coming soon...
-              </p>
-            </div>
+            <FileUpload
+              onFileUploaded={handleFileUploaded}
+              attachedFiles={attachedFiles}
+              setAttachedFiles={setAttachedFiles}
+              theme={theme}
+            />
           </div>
         )}
 
