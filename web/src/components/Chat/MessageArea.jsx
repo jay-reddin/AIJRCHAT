@@ -61,7 +61,7 @@ export default function MessageArea({
         </div>
       )}
 
-      {messages.map((message) => (
+      {messages.map((message, index) => (
         <Message
           key={message.id}
           message={message}
@@ -69,6 +69,7 @@ export default function MessageArea({
           onResend={onResend}
           onCopy={onCopy}
           onDelete={onDelete}
+          isStreaming={isLoading && index === 0 && message.role === 'assistant'}
         />
       ))}
 
