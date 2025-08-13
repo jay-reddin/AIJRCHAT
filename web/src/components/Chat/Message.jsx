@@ -17,6 +17,7 @@ function SafeReactMarkdown({ children, theme }) {
     code({ node, inline, className, children, ...props }) {
       const match = /language-(\w+)/.exec(className || '');
       const language = match ? match[1] : '';
+      const codeText = String(children).replace(/\n$/, '');
 
       if (!inline) {
         // Block code - use our custom CodeBlock component
@@ -24,9 +25,10 @@ function SafeReactMarkdown({ children, theme }) {
           <CodeBlock
             language={language}
             theme={theme}
+            isStreaming={false}
             {...props}
           >
-            {String(children).replace(/\n$/, '')}
+            {codeText}
           </CodeBlock>
         );
       } else {
@@ -44,6 +46,44 @@ function SafeReactMarkdown({ children, theme }) {
           </code>
         );
       }
+    },
+    // Custom paragraph component for better spacing
+    p({ children }) {
+      return <p className="mb-4 last:mb-0 leading-relaxed">{children}</p>;
+    },
+    // Custom list components
+    ul({ children }) {
+      return <ul className="mb-4 pl-6 space-y-2 list-disc">{children}</ul>;
+    },
+    ol({ children }) {
+      return <ol className="mb-4 pl-6 space-y-2 list-decimal">{children}</ol>;
+    },
+    li({ children }) {
+      return <li className="leading-relaxed">{children}</li>;
+    },
+    // Custom heading components
+    h1({ children }) {
+      return <h1 className="text-xl font-bold mb-4 mt-6 first:mt-0">{children}</h1>;
+    },
+    h2({ children }) {
+      return <h2 className="text-lg font-bold mb-3 mt-5 first:mt-0">{children}</h2>;
+    },
+    h3({ children }) {
+      return <h3 className="text-base font-bold mb-2 mt-4 first:mt-0">{children}</h3>;
+    },
+    // Custom blockquote
+    blockquote({ children }) {
+      return (
+        <blockquote className={`border-l-4 pl-4 py-2 my-4 italic ${
+          theme === 'dark' ? 'border-gray-600 bg-gray-800/30' : 'border-gray-300 bg-gray-50'
+        }`}>
+          {children}
+        </blockquote>
+      );
+    },
+    // Custom line break
+    br() {
+      return <br className="mb-2" />;
     }
   };
 
