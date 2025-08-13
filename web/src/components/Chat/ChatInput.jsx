@@ -42,10 +42,15 @@ const ChatInput = forwardRef(
 
     const handleFileUploaded = useCallback(
       (file) => {
-        setAttachedFiles((prev) => [...prev, file]);
-        // Add file reference to message
-        const fileText = `\n\n[Attached: ${file.name}]\nFile URL: ${file.url}`;
-        setCurrentMessage((prev) => prev + fileText);
+        // File is already added to attachedFiles by FileUpload component
+        // Add file reference to message for context
+        if (file.isText && file.content) {
+          const fileText = `\n\n[File: ${file.name}]\n\`\`\`\n${file.content}\n\`\`\`\n`;
+          setCurrentMessage((prev) => prev + fileText);
+        } else if (file.isImage) {
+          const fileText = `\n\n[Image: ${file.name}]\n`;
+          setCurrentMessage((prev) => prev + fileText);
+        }
       },
       [setCurrentMessage],
     );
