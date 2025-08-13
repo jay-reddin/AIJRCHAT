@@ -1,6 +1,7 @@
 import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import MessageActions from "./MessageActions";
+import { File, Image as ImageIcon, FileText } from "lucide-react";
 
 // SSR-safe ReactMarkdown wrapper
 function SafeReactMarkdown({ children }) {
