@@ -129,6 +129,8 @@ export default function AIChat() {
         theme={theme}
       />
 
+      <TokenUsageTracker messages={messages} />
+
       <AIModeSelector
         chatMode={chatMode}
         setChatMode={setChatMode}
