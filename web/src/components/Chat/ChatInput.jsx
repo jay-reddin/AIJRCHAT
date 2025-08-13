@@ -90,7 +90,7 @@ const ChatInput = forwardRef(
             </div>
           )}
         </ClientOnlyWrapper>
-        {/* Advanced Features */}
+        {/* File Upload */}
         {showAdvanced && (
           <div
             className={`p-4 rounded-lg border ${
@@ -99,13 +99,12 @@ const ChatInput = forwardRef(
                 : "bg-[#F8F9FA] border-[#E5E7EB]"
             }`}
           >
-            <div className="text-center p-4">
-              <p
-                className={`text-sm ${isDark ? "text-gray-400" : "text-gray-600"}`}
-              >
-                Advanced features coming soon...
-              </p>
-            </div>
+            <FileUpload
+              onFileUploaded={handleFileUploaded}
+              attachedFiles={attachedFiles}
+              setAttachedFiles={setAttachedFiles}
+              theme={theme}
+            />
           </div>
         )}
 
