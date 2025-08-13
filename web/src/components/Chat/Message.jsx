@@ -125,6 +125,41 @@ export default function Message({
               />
             </div>
           )}
+
+          {/* Display attached files */}
+          {attachedFiles.length > 0 && (
+            <div className="mt-3 space-y-2">
+              {attachedFiles.map((file, index) => (
+                <div
+                  key={index}
+                  className={`p-3 rounded-lg border ${
+                    isDark
+                      ? "bg-gray-800/50 border-gray-600"
+                      : "bg-gray-50 border-gray-200"
+                  }`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    {file.type === 'image' ? (
+                      <ImageIcon size={16} className="text-blue-400" />
+                    ) : (
+                      <FileText size={16} className="text-green-400" />
+                    )}
+                    <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                      {file.name}
+                    </span>
+                  </div>
+
+                  {file.type === 'file' && file.content && (
+                    <div className={`text-xs rounded p-2 font-mono overflow-x-auto ${
+                      isDark ? 'bg-gray-900/50' : 'bg-white'
+                    }`}>
+                      <pre className="whitespace-pre-wrap">{file.content}</pre>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {message.role !== "error" && (
