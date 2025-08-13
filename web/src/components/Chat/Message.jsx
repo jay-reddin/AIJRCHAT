@@ -187,7 +187,9 @@ export default function Message({
                   : "prose-headings:text-[#000000] prose-p:text-[#000000] prose-strong:text-[#000000] prose-code:text-[#000000] prose-pre:bg-[#F8F9FA] prose-pre:text-[#000000]"
               }`}
             >
-              <SafeReactMarkdown>{message.content}</SafeReactMarkdown>
+              <SafeReactMarkdown theme={theme} isStreaming={isStreaming} message={message}>
+                {message.content}
+              </SafeReactMarkdown>
             </div>
           ) : (
             <p className="whitespace-pre-wrap break-words">{message.content}</p>
