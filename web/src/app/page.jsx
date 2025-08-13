@@ -17,6 +17,7 @@ import MessageArea from "../components/Chat/MessageArea.jsx";
 import ChatInput from "../components/Chat/ChatInput.jsx";
 import SettingsModal from "../components/Settings/SettingsModal.jsx";
 import TokenUsageTracker from "../components/Chat/TokenUsageTracker.jsx";
+import ClientOnlyWrapper from "../components/Chat/ClientOnlyWrapper.jsx";
 
 export default function AIChat() {
   const [isClient, setIsClient] = useState(false);
@@ -129,7 +130,9 @@ export default function AIChat() {
         theme={theme}
       />
 
-      <TokenUsageTracker messages={messages} />
+      <ClientOnlyWrapper>
+        <TokenUsageTracker messages={messages} />
+      </ClientOnlyWrapper>
 
       <AIModeSelector
         chatMode={chatMode}
