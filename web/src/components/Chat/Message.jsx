@@ -2,6 +2,7 @@ import ReactMarkdown from "react-markdown";
 import { useState, useEffect } from "react";
 import MessageActions from "./MessageActions";
 import { File, Image as ImageIcon, FileText } from "lucide-react";
+import CodeBlock from "./CodeBlock.jsx";
 
 // SSR-safe ReactMarkdown wrapper
 function SafeReactMarkdown({ children }) {
