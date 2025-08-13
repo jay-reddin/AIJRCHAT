@@ -87,11 +87,25 @@ function SafeReactMarkdown({ children, theme }) {
     }
   };
 
+  // Preprocess content to better format filenames and suggestions
+  const preprocessContent = (content) => {
+    if (!content) return content;
+
+    // Bold filenames that are mentioned inline
+    let processed = content
+      .replace(/`([^`]+\.(js|jsx|ts|tsx|html|css|py|java|cpp|c|go|rs|php|rb|swift|kt|json|xml|yml|yaml|md|txt))`/g, '**`$1`**')
+      .replace(/^(Create|Add|Update|Modify|Edit)\s+([a-zA-Z0-9_-]+\.[a-z]+):/gm, '**$1 $2:**\n\n')
+      .replace(/^(File:|Filename:|Create file:)\s*([^\n]+)/gm, '**$1** `$2`\n\n')
+      .replace(/^(\d+\.\s+)([a-zA-Z0-9_/-]+\.[a-z]+)/gm, '$1**`$2`**');
+
+    return processed;
+  };
+
   // Always render the same structure but suppress hydration warnings for content
   return (
     <div suppressHydrationWarning>
       {isClient ? (
-        <ReactMarkdown components={components}>{children}</ReactMarkdown>
+        <ReactMarkdown components={components}>{preprocessContent(children)}</ReactMarkdown>
       ) : (
         <div className="whitespace-pre-wrap break-words">{children}</div>
       )}
