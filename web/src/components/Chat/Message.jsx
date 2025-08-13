@@ -25,7 +25,7 @@ function SafeReactMarkdown({ children, theme }) {
           <CodeBlock
             language={language}
             theme={theme}
-            isStreaming={false}
+            isStreaming={isStreaming && message.role === 'assistant'}
             {...props}
           >
             {codeText}
@@ -129,6 +129,7 @@ export default function Message({
   onCopy,
   onDelete,
   theme,
+  isStreaming = false,
 }) {
   const isDark = theme === "dark";
   const attachedFiles = extractFileAttachments(message.content || '');
