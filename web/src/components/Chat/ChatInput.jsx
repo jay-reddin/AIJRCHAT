@@ -64,7 +64,7 @@ const ChatInput = forwardRef(
 
     const handleSendWithFiles = () => {
       // Files are already included in the message content by handleFileUploaded
-      handleSendMessage();
+      handleSendMessage(attachedFiles);
       setAttachedFiles([]);
     };
 
