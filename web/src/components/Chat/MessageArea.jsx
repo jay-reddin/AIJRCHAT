@@ -72,15 +72,6 @@ export default function MessageArea({
         />
       ))}
 
-      {messages.length === 0 && isSignedIn && (
-        <div
-          className={`text-center opacity-50 py-12 ${
-            theme === "dark" ? "text-white" : "text-[#000000]"
-          }`}
-        >
-          <p>Start a conversation with an AI model</p>
-        </div>
-      )}
     </div>
   );
 }
