@@ -275,7 +275,7 @@ export default function useChat({
     }
   };
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (attachedFiles = []) => {
     if (!currentMessage.trim() || isLoading || !isSignedIn) return;
 
     // Route to appropriate handler based on chat mode
@@ -291,6 +291,7 @@ export default function useChat({
       role: "user",
       content: currentMessage,
       timestamp: new Date().toLocaleTimeString(),
+      files: attachedFiles || [],
     };
 
     setMessages((prev) => [userMessage, ...prev]);
