@@ -4,19 +4,54 @@ import MessageActions from "./MessageActions";
 import { File, Image as ImageIcon, FileText } from "lucide-react";
 import CodeBlock from "./CodeBlock.jsx";
 
-// SSR-safe ReactMarkdown wrapper
-function SafeReactMarkdown({ children }) {
+// SSR-safe ReactMarkdown wrapper with custom code block rendering
+function SafeReactMarkdown({ children, theme }) {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  // Custom components for markdown rendering
+  const components = {
+    code({ node, inline, className, children, ...props }) {
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : '';
+
+      if (!inline) {
+        // Block code - use our custom CodeBlock component
+        return (
+          <CodeBlock
+            language={language}
+            theme={theme}
+            {...props}
+          >
+            {String(children).replace(/\n$/, '')}
+          </CodeBlock>
+        );
+      } else {
+        // Inline code - use default styling
+        return (
+          <code
+            className={`px-1 py-0.5 rounded text-sm font-mono ${
+              theme === 'dark'
+                ? 'bg-gray-800 text-gray-200'
+                : 'bg-gray-100 text-gray-800'
+            }`}
+            {...props}
+          >
+            {children}
+          </code>
+        );
+      }
+    }
+  };
+
   // Always render the same structure but suppress hydration warnings for content
   return (
     <div suppressHydrationWarning>
       {isClient ? (
-        <ReactMarkdown>{children}</ReactMarkdown>
+        <ReactMarkdown components={components}>{children}</ReactMarkdown>
       ) : (
         <div className="whitespace-pre-wrap break-words">{children}</div>
       )}
